@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,12 @@ Route::get('/landingpage', function () {
     return view('landing');
 })->name('landing');
 
+
+Route::middleware('auth')->group(function () {
+    Route::get('/booking/{van}', [BookingController::class, 'show'])->name('booking');
+    Route::get('/booking/{van}', [BookingController::class, 'store'])->name('store');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -32,4 +39,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -199,7 +199,7 @@
         </div>
     </div>
 
-    <div class="font-sans p-4 mx-auto md:max-w-7xl lg:max-w-7xl mt-8 mb-8 bg-slate-200">
+    <div class="font-sans p-4 mx-auto md:max-w-7xl lg:max-w-7xl mt-8 mb-8">
         <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-800 mb-6 sm:mb-10 text-center">Our Vans</h2>
         <div class="van-carousel-container">
             <livewire:browse-vans />

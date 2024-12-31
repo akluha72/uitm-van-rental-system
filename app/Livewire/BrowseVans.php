@@ -8,6 +8,7 @@ use App\Models\Van;
 class BrowseVans extends Component
 {
     public $selectedVan = null;
+    public $showBookingForm = false;
 
     public function selectVan($vanId)
     {
@@ -17,9 +18,15 @@ class BrowseVans extends Component
             // Emit event to trigger registration popup for unregistered users
             $this->emit('showRegisterPopup');
         } else {
-            // Redirect to booking page
-            return redirect()->route('booking', ['van' => $vanId]);
+            // Show booking form in popup
+            $this->showBookingForm = true;
         }
+    }
+
+    public function closeBookingForm()
+    {
+        $this->showBookingForm = false;
+        $this->selectedVan = null;
     }
 
     public function render()
