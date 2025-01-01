@@ -5,17 +5,18 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Van;
+use App\Models\Booking;
 
 class BrowseVans extends Component
 {
     use WithFileUploads;
     public $selectedVan = null;
-    public $showBookingForm = false;
     public $termsAccepted = false;
     public $name;
     public $startDate;
     public $endDate;
     public $license;
+    public $unavailableDates = [];
 
     public function toggleTermsAccepted()
     {
@@ -28,10 +29,11 @@ class BrowseVans extends Component
 
         if (!auth()->check()) {
             // Emit event to trigger registration popup for unregistered users
-            $this->emit('showRegisterPopup');
+            // $this->emit('showRegisterPopup');
         } else {
+
             // Show booking form in popup
-            $this->showBookingForm = true;
+            // $this->showBookingForm = true;
         }
     }
 
@@ -40,6 +42,30 @@ class BrowseVans extends Component
         $this->showBookingForm = false;
         $this->selectedVan = null;
     }
+
+
+    public function updatedSelectedVan()
+    {
+        $this->unavailableDates = $this->getUnavailableDates($this->selectedVan);
+        $this->emit('refreshUnavailableDates', $this->unavailableDates);
+    }
+
+    public function getUnavailableDates($vanId)
+    {
+        // Fetch unavailable dates logic
+        $bookings = Booking::where('van_id', $vanId)->get(['start_date', 'end_date']);
+        $unavailableDates = [];
+
+        foreach ($bookings as $booking) {
+            $period = \Carbon\CarbonPeriod::create($booking->start_date, $booking->end_date);
+            foreach ($period as $date) {
+                $unavailableDates[] = $date->format('Y-m-d');
+            }
+        }
+
+        return $unavailableDates;
+    }
+
     public function bookVan()
     {
         dd($this->termsAccepted);
