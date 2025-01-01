@@ -223,24 +223,25 @@
 
 
             {{-- booking form poupup --}}
-            <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-                <div class="bg-white p-6 rounded shadow-lg w-1/2">
+            <div id="bookingModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                <div class="bg-white p-6 rounded shadow-lg w-3/4">
                     <h2 class="text-xl font-semibold mb-4">
                         Booking Forms
                     </h2>
-            
+
                     <!-- Van Details -->
                     <div class="mb-4 flex flex-row relative">
                         <!-- Image at the back -->
                         <div class="booking-popup-image absolute inset-0 z-0">
                             <img src="https://placehold.co/700x200" alt="Van Image" class="h-64 w-full object-cover">
                         </div>
-            
+
                         <!-- Gradient Layer -->
                         <div class="relative bg-gradient-to-r from-black to-transparent h-64 w-[80%] z-10">
                             <!-- This gradient will cover 30% of the image -->
                         </div>
-            
+
                         <!-- Description Layer -->
                         <div class="booking-popup-description absolute left-2 z-20 h-full p-4 rounded">
                             <h2 id="modalTitle" class="text-xl text-white font-semibold mb-4">Book Van</h2>
@@ -250,47 +251,56 @@
                             <p id="modalLicense" class="text-sm text-white"><strong>License Plate:</strong></p>
                         </div>
                     </div>
-    
+
                     <div>
-                        <div class="mb-4">
+                        <div class="form-name-container mb-4">
                             <label class="block text-sm font-medium text-gray-700">Your Name</label>
-                            <input type="text" wire:model="name" class="w-full border-gray-300 rounded p-2" placeholder="Enter your name">
+                            <input type="text" wire:model="name" class="w-1/4 border-gray-300 rounded p-2"
+                                placeholder="Enter your name">
                         </div>
             
-                        <div class="flex flex-row items-center gap-2 mb-4 bg-blue-200">
-                            <div class="mb-4">
-                                <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
-                                <input type="text" id="startDate" wire:ignore class="w-full border-gray-300 rounded p-2" placeholder="Select start date">
+                        <div class="form-calendar-container flex flex-row items-center gap-4 mb-4">
+                            <div class="calendar-container ">
+                                <label for="startDate" class="block text-sm font-medium text-gray-700">Start
+                                    Date</label>
+                                <div id="startDateCalendar" class="jsCalendar green"></div>
+                                <input type="hidden" id="startDate" name="startDate">
                             </div>
-            
-                            <div class="mb-4">
+
+                            <div class="calendar-container">
                                 <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
-                                <input type="text" id="endDate" wire:ignore class="w-full border-gray-300 rounded p-2" placeholder="Select end date">
+                                <div id="endDateCalendar" class="jsCalendar"></div>
+                                <input type="hidden" id="endDate" name="endDate">
                             </div>
                         </div>
-            
+
                         <div class="upload-license-pdf bg-gray-100 p-4 rounded-lg w-full max-w-sm mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Upload License PDF</label>
-                            <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4">
+                            <div
+                                class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4">
                                 <label for="license-upload" class="flex flex-col items-center cursor-pointer">
-                                    <span class="text-gray-500 text-sm mb-1">Click to upload your license (PDF only)</span>
-                                    <input id="license-upload" type="file" wire:model="license" accept="application/pdf" class="hidden">
+                                    <span class="text-gray-500 text-sm mb-1">Click to upload your license (PDF
+                                        only)</span>
+                                    <input id="license-upload" type="file" wire:model="license"
+                                        accept="application/pdf" class="hidden">
                                 </label>
                             </div>
                         </div>
-            
+
                         <div class="mb-4">
                             <input type="checkbox" id="terms" wire:click="toggleTermsAccepted" class="mr-2">
                             <label for="terms" class="text-sm text-gray-700">
-                                I agree to the <a href="#" class="text-blue-500 underline">Terms and Conditions</a> and <a href="#" class="text-blue-500 underline">Privacy Policy</a>.
+                                I agree to the <a href="#" class="text-blue-500 underline">Terms and
+                                    Conditions</a> and <a href="#" class="text-blue-500 underline">Privacy
+                                    Policy</a>.
                             </label>
                         </div>
-            
+
                         {{-- <h1>{{ $termsAccepted ? 'Agreed' : 'Not Agreed' }}</h1> --}}
-            
+
                         <!-- Form Buttons -->
                         <div class="form-button relative ml-auto">
-                        
+
                             <button type="button" wire:click.prevent="bookVan"
                                 class="px-4 py-2 rounded text-white bg-slate-500 cursor-not-allowed" disabled>
                                 Confirm Booking
@@ -306,3 +316,4 @@
         </div>
     </div>
 </x-app-layout>
+

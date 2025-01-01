@@ -18,9 +18,12 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    Usage
+    <!-- jsCalendar v1.4.5 Javascript and CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.5/source/jsCalendar.min.js"
+        integrity="sha384-F3Wc9EgweCL3C58eDn9902kdEH6bTDL9iW2JgwQxJYUIeudwhm4Wu9JhTkKJUtIJ" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.5/source/jsCalendar.min.css"
+        integrity="sha384-CTBW6RKuDwU/TWFl2qLavDqLuZtBzcGxBXY8WvQ0lShXglO/DsUvGkXza+6QTxs0" crossorigin="anonymous">
 
     <style>
         body {
@@ -53,4 +56,54 @@
     @stack('scripts')
     @livewireScripts
 </body>
+<script type="module">
+    document.addEventListener("DOMContentLoaded", function() {
+        const availableDates = ["2025-01-05", "2025-01-10", "2025-01-15"];
+        const unavailableDates = ["2025-01-07", "2025-01-12"];
+
+        console.log("Available Dates:", availableDates);
+        console.log("Unavailable Dates:", unavailableDates);
+        
+        const startCalendar = jsCalendar.new({
+            target: "#startDateCalendar",
+            navigator: true,
+            date: "03/01/2025",
+            dayFormat: "DDD",
+        });
+
+        const endCalendar = jsCalendar.new({
+            target: "#endDateCalendar",
+            navigator: true,
+            dayFormat: "DDD",
+        });
+
+        // startCalendar.set({
+        //     events: availableDates
+        // });
+        // endCalendar.set({
+        //     events: availableDates
+        // });
+
+        // startCalendar.onDateClick((event, date) => {
+        //     const selectedDate = jsCalendar.tools.dateToString(date, "YYYY-MM-DD");
+        //     if (!unavailableDates.includes(selectedDate)) {
+        //         document.getElementById("startDate").value = selectedDate;
+        //         alert(`Start Date Selected: ${selectedDate}`);
+        //     } else {
+        //         alert("This date is unavailable.");
+        //     }
+        // });
+
+        // endCalendar.onDateClick((event, date) => {
+        //     const selectedDate = jsCalendar.tools.dateToString(date, "YYYY-MM-DD");
+        //     if (!unavailableDates.includes(selectedDate)) {
+        //         document.getElementById("endDate").value = selectedDate;
+        //         alert(`End Date Selected: ${selectedDate}`);
+        //     } else {
+        //         alert("This date is unavailable.");
+        //     }
+        // });
+    });
+</script>
+
 </html>
