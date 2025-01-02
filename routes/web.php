@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/landingpage', [LandingPageController::class, 'show'])->name('landing');
-Route::post('/booking-form', [FormController::class, 'getVanDetails'])->name('getVanDetails');
+Route::post('/get-van-details', [FormController::class, 'getVanDetails'])->name('getVanDetails');
+Route::post('/get-unavailable-dates', [FormController::class, 'getUnavailableDates'])->name('getUnavailableDates');
 
 
 Route::middleware('auth')->group(function () {

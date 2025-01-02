@@ -257,23 +257,38 @@
                                 placeholder="Enter your name">
                         </div>
 
-                        <div class="form-calendar-container flex flex-row items-center gap-4 mb-4">
-                            <div class="calendar-container">
-                                <label for="startDate" class="block text-sm font-medium text-gray-700">Start
-                                    Date</label>
-                                <input type="date" id="startDate" name="startDate"
-                                    class="w-full border-gray-300 rounded p-2">
+                        <div class="form-calendar-container flex flex-col gap-4 mb-4">
+                            <!-- Unavailable Dates Section -->
+                            <div class="unavailable-dates-container">
+                                <label class="block text-sm font-medium text-red-700">Unavailable Dates</label>
+                                <div class="unavailable-dates-list flex flex-col gap-2">
+                                    {{-- data here populated from the jsfile --}}
+                                </div>
                             </div>
 
-                            <div class="calendar-container">
-                                <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
-                                <input type="date" id="endDate" name="endDate"
-                                    class="w-full border-gray-300 rounded p-2">
+                            <!-- Start Date and End Date Section -->
+                            <div class="flex flex-row items-center gap-4">
+                                <div class="calendar-container">
+                                    <label for="startDate" class="block text-sm font-medium text-gray-700">Start
+                                        Date</label>
+                                    <input type="date" id="startDate" name="startDate"
+                                        class="w-full border-gray-300 rounded p-2">
+                                </div>
+
+                                <div class="calendar-container">
+                                    <label for="endDate" class="block text-sm font-medium text-gray-700">End
+                                        Date</label>
+                                    <input type="date" id="endDate" name="endDate"
+                                        class="w-full border-gray-300 rounded p-2">
+                                </div>
                             </div>
+
+                            <!-- Hidden Fields -->
                             <input type="hidden" id="vanId" value="">
                             <input type="hidden" id="startDate" name="startDate">
                             <input type="hidden" id="endDate" name="endDate">
                         </div>
+
 
                         <div class="upload-license-pdf bg-gray-100 p-4 rounded-lg w-full max-w-sm mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Upload License PDF</label>

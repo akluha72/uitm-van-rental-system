@@ -1,8 +1,8 @@
 import './bootstrap';
 import Alpine from 'alpinejs';
 
-import { closeModal } from './modal';
-import { getVanDetails } from './modal';
+import { closeModal } from './getVanDetail';
+import { getVanDetails } from './getVanDetail';
 import { checkDateAvailability } from './checkAvailability';
 import { dateValidator } from './checkAvailability';
 
