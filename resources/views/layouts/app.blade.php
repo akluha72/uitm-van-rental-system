@@ -56,54 +56,5 @@
     @stack('scripts')
     @livewireScripts
 </body>
-<script type="module">
-    document.addEventListener("DOMContentLoaded", function() {
-        const availableDates = ["2025-01-05", "2025-01-10", "2025-01-15"];
-        const unavailableDates = ["2025-01-07", "2025-01-12"];
-
-        console.log("Available Dates:", availableDates);
-        console.log("Unavailable Dates:", unavailableDates);
-        
-        const startCalendar = jsCalendar.new({
-            target: "#startDateCalendar",
-            navigator: true,
-            // date: "03/01/2025",
-            dayFormat: "DDD",
-        });
-
-        const endCalendar = jsCalendar.new({
-            target: "#endDateCalendar",
-            navigator: true,
-            dayFormat: "DDD",
-        });
-
-        // startCalendar.set({
-        //     events: availableDates
-        // });
-        // endCalendar.set({
-        //     events: availableDates
-        // });
-
-        // startCalendar.onDateClick((event, date) => {
-        //     const selectedDate = jsCalendar.tools.dateToString(date, "YYYY-MM-DD");
-        //     if (!unavailableDates.includes(selectedDate)) {
-        //         document.getElementById("startDate").value = selectedDate;
-        //         alert(`Start Date Selected: ${selectedDate}`);
-        //     } else {
-        //         alert("This date is unavailable.");
-        //     }
-        // });
-
-        // endCalendar.onDateClick((event, date) => {
-        //     const selectedDate = jsCalendar.tools.dateToString(date, "YYYY-MM-DD");
-        //     if (!unavailableDates.includes(selectedDate)) {
-        //         document.getElementById("endDate").value = selectedDate;
-        //         alert(`End Date Selected: ${selectedDate}`);
-        //     } else {
-        //         alert("This date is unavailable.");
-        //     }
-        // });
-    });
-</script>
 
 </html>

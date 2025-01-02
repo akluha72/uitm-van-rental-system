@@ -314,3 +314,6 @@
     </div>
 </x-app-layout>
 
+<script type="module">
+    dateValidator();
+</script>
