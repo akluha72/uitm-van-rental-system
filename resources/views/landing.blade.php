@@ -224,7 +224,7 @@
 
             {{-- booking form poupup --}}
             <div id="bookingModal"
-                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                class="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center hidden">
                 <div class="bg-white p-6 rounded shadow-lg w-3/4">
                     <h2 class="text-xl font-semibold mb-4">
                         Booking Forms
@@ -260,17 +260,16 @@
                         </div>
             
                         <div class="form-calendar-container flex flex-row items-center gap-4 mb-4">
-                            <div class="calendar-container ">
-                                <label for="startDate" class="block text-sm font-medium text-gray-700">Start
-                                    Date</label>
-                                <div id="startDateCalendar" class="jsCalendar green"></div>
-                                <input type="hidden" id="startDate" name="startDate">
+                            <div class="calendar-container">
+                                <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
+                                <input type="date" id="startDate" name="startDate"
+                                    class="w-full border-gray-300 rounded p-2">
                             </div>
-
+                        
                             <div class="calendar-container">
                                 <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
-                                <div id="endDateCalendar" class="jsCalendar"></div>
-                                <input type="hidden" id="endDate" name="endDate">
+                                <input type="date" id="endDate" name="endDate"
+                                    class="w-full border-gray-300 rounded p-2">
                             </div>
                         </div>
 
@@ -295,8 +294,6 @@
                                     Policy</a>.
                             </label>
                         </div>
-
-                        {{-- <h1>{{ $termsAccepted ? 'Agreed' : 'Not Agreed' }}</h1> --}}
 
                         <!-- Form Buttons -->
                         <div class="form-button relative ml-auto">

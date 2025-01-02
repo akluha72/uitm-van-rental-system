@@ -5,6 +5,7 @@ const csrfToken = document.head.querySelector(
 
 
 export function closeModal() {
+    console.log("closeModal Triggered");
     document.getElementById('bookingModal').classList.add('hidden');
 }
 

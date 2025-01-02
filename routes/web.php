@@ -24,6 +24,8 @@ Route::post('/booking-form', [BookingForm::class, 'getVanDetails'])->name('getVa
 Route::middleware('auth')->group(function () {
     Route::get('/booking/{van}', [BookingController::class, 'show'])->name('booking');
     Route::get('/booking/{van}', [BookingController::class, 'store'])->name('store');
+    Route::post('/check-availability', [BookingController::class, 'checkAvailability'])->name('checkAvailability');
+
 });
 
 

@@ -67,7 +67,7 @@
         const startCalendar = jsCalendar.new({
             target: "#startDateCalendar",
             navigator: true,
-            date: "03/01/2025",
+            // date: "03/01/2025",
             dayFormat: "DDD",
         });
 
