@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 use App\Models\Van;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+
 
 class BookingController extends Controller
 {
     public function show(Van $van)
     {
         return view('booking', compact('van'));
-    }
-
-    //delete this controller sooner or later
-    public function store(Van $van)
-    {
-        return $van;
     }
 
     public function checkAvailability(Request $request)

@@ -38,9 +38,12 @@ function openBookingModal(){
 
 // Function to populate the modal with data
 function populateModal(data) {
+    console.log(data.id);
     document.getElementById('modalTitle').innerText = `Book ${data.model}`;
     document.getElementById('modalModel').innerText = `Model: ${data.model}`;
     document.getElementById('modalCapacity').innerText = `Capacity: ${data.capacity} passengers`;
     document.getElementById('modalRate').innerText = `Rental Rate: RM${data.rental_rate} per day`;
     document.getElementById('modalLicense').innerText = `License Plate: ${data.license_plate}`;
+    document.getElementById('vanId').value = `${data.id}`;
+
 }

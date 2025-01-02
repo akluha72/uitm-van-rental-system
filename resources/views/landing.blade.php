@@ -220,8 +220,6 @@
                 @endforeach
             </div>
 
-
-
             {{-- booking form poupup --}}
             <div id="bookingModal"
                 class="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center hidden">
@@ -258,19 +256,23 @@
                             <input type="text" wire:model="name" class="w-1/4 border-gray-300 rounded p-2"
                                 placeholder="Enter your name">
                         </div>
-            
+
                         <div class="form-calendar-container flex flex-row items-center gap-4 mb-4">
                             <div class="calendar-container">
-                                <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
+                                <label for="startDate" class="block text-sm font-medium text-gray-700">Start
+                                    Date</label>
                                 <input type="date" id="startDate" name="startDate"
                                     class="w-full border-gray-300 rounded p-2">
                             </div>
-                        
+
                             <div class="calendar-container">
                                 <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
                                 <input type="date" id="endDate" name="endDate"
                                     class="w-full border-gray-300 rounded p-2">
                             </div>
+                            <input type="hidden" id="vanId" value="">
+                            <input type="hidden" id="startDate" name="startDate">
+                            <input type="hidden" id="endDate" name="endDate">
                         </div>
 
                         <div class="upload-license-pdf bg-gray-100 p-4 rounded-lg w-full max-w-sm mb-4">

@@ -1,32 +1,38 @@
 export function dateValidator() {
     document.addEventListener("DOMContentLoaded", function () {
-        const startDateInput = document.getElementById("startDate");
-        const endDateInput = document.getElementById("endDate");
-        const unavailableDates = ["2025-01-02", "2025-01-03"]; // Example unavailable dates
+        document.querySelector("#startDate").addEventListener("change", async function () {
+            const startDate = document.querySelector("#startDate").value;
+            const endDate = document.querySelector("#endDate").value;
+            const vanId = document.querySelector("#vanId").value; // Ensure this exists
 
-        // Function to check if a date is unavailable
-        function isDateUnavailable(date) {
-            return unavailableDates.includes(date);
-        }
+            if (startDate && endDate) {
+                const available = await checkDateAvailability(vanId, startDate, endDate);
 
-        // Start date validation
-        startDateInput.addEventListener("change", function () {
-            const selectedDate = startDateInput.value;
-            if (isDateUnavailable(selectedDate)) {
-                alert("The selected start date is unavailable.");
-                startDateInput.value = ""; // Reset invalid selection
+                if (!available) {
+                    document.querySelector("#confirmBookingButton").disabled = true;
+                } else {
+                    document.querySelector("#confirmBookingButton").disabled = false;
+                }
             }
         });
 
-        // End date validation
-        endDateInput.addEventListener("change", function () {
-            const selectedDate = endDateInput.value;
-            if (isDateUnavailable(selectedDate)) {
-                alert("The selected end date is unavailable.");
-                endDateInput.value = ""; // Reset invalid selection
+        document.querySelector("#endDate").addEventListener("change", async function () {
+            const startDate = document.querySelector("#startDate").value;
+            const endDate = document.querySelector("#endDate").value;
+            const vanId = document.querySelector("#vanId").value; // Ensure this exists
+
+            if (startDate && endDate) {
+                const available = await checkDateAvailability(vanId, startDate, endDate);
+
+                if (!available) {
+                    document.querySelector("#confirmBookingButton").disabled = true;
+                } else {
+                    document.querySelector("#confirmBookingButton").disabled = false;
+                }
             }
         });
     });
+
 }
 
 

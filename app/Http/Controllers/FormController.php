@@ -7,7 +7,7 @@ use App\Models\Van;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class BookingForm extends Controller
+class FormController extends Controller
 {
     public function getVanDetails(Request $request): JsonResponse
     {

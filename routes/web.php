@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\BookingForm;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\LandingPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,14 +18,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/landingpage', [LandingPageController::class, 'show'])->name('landing');
-Route::post('/booking-form', [BookingForm::class, 'getVanDetails'])->name('getVanDetails');
+Route::post('/booking-form', [FormController::class, 'getVanDetails'])->name('getVanDetails');
 
 
 Route::middleware('auth')->group(function () {
     Route::get('/booking/{van}', [BookingController::class, 'show'])->name('booking');
-    Route::get('/booking/{van}', [BookingController::class, 'store'])->name('store');
     Route::post('/check-availability', [BookingController::class, 'checkAvailability'])->name('checkAvailability');
-
 });
 
 
