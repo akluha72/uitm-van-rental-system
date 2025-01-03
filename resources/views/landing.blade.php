@@ -350,7 +350,7 @@
                 confirmBookingButton.classList.remove("bg-blue-500", "hover:bg-blue-600");
             }
         });
-        dcoument.getElementById('confirmBooking').addEventListener("click", function(event) {
+        document.getElementById('confirmBooking').addEventListener("click", function(event) {
             console.log("form triggered");
             event.preventDefault(); // Prevent the default form submission
 
