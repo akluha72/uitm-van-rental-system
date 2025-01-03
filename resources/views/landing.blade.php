@@ -227,116 +227,129 @@
                     <h2 class="text-xl font-semibold mb-4">
                         Booking Forms
                     </h2>
-
-                    <!-- Van Details -->
-                    <div class="mb-4 flex flex-row relative">
-                        <!-- Image at the back -->
-                        <div class="booking-popup-image absolute inset-0 z-0">
-                            <img src="https://placehold.co/700x200" alt="Van Image" class="h-64 w-full object-cover">
+                    <!-- Form -->
+                    <form id="bookingForm" action="/submit-booking" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <!-- Van Details -->
+                        <div class="mb-4 flex flex-row relative">
+                            <div class="booking-popup-image absolute inset-0 z-0">
+                                <img src="https://placehold.co/700x200" alt="Van Image"
+                                    class="h-64 w-full object-cover">
+                            </div>
+                            <div class="relative bg-gradient-to-r from-black to-transparent h-64 w-[80%] z-10"></div>
+                            <div class="booking-popup-description absolute left-2 z-20 h-full p-4 rounded">
+                                <h2 id="modalTitle" class="text-xl text-white font-semibold mb-4">Book Van</h2>
+                                <p id="modalModel" class="text-sm text-white"><strong>Model:</strong></p>
+                                <p id="modalCapacity" class="text-sm text-white"><strong>Capacity:</strong></p>
+                                <p id="modalRate" class="text-sm text-white"><strong>Rental Rate:</strong></p>
+                                <p id="modalLicense" class="text-sm text-white"><strong>License Plate:</strong></p>
+                            </div>
                         </div>
 
-                        <!-- Gradient Layer -->
-                        <div class="relative bg-gradient-to-r from-black to-transparent h-64 w-[80%] z-10">
-                            <!-- This gradient will cover 30% of the image -->
-                        </div>
-
-                        <!-- Description Layer -->
-                        <div class="booking-popup-description absolute left-2 z-20 h-full p-4 rounded">
-                            <h2 id="modalTitle" class="text-xl text-white font-semibold mb-4">Book Van</h2>
-                            <p id="modalModel" class="text-sm text-white"><strong>Model:</strong></p>
-                            <p id="modalCapacity" class="text-sm text-white"><strong>Capacity:</strong></p>
-                            <p id="modalRate" class="text-sm text-white"><strong>Rental Rate:</strong></p>
-                            <p id="modalLicense" class="text-sm text-white"><strong>License Plate:</strong></p>
-                        </div>
-                    </div>
-
-                    <div>
-                        {{-- <div class="form-name-container mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Your Name</label>
-                            <input type="text" wire:model="name" class="w-1/4 border-gray-300 rounded p-2"
-                                placeholder="Enter your name">
-                        </div> --}}
-
+                        <!-- Form Content -->
                         <div class="form-calendar-container flex flex-col gap-4 mb-4">
-                            <!-- Unavailable Dates Section -->
                             <div class="unavailable-dates-container">
                                 <label class="block text-sm font-medium text-red-700">Unavailable Dates</label>
                                 <div class="unavailable-dates-list flex flex-col gap-2">
-                                    {{-- data here populated from the jsfile --}}
+                                    {{-- Data here populated from the jsfile --}}
                                 </div>
                             </div>
 
-                            <!-- Start Date and End Date Section -->
                             <div class="flex flex-row items-center gap-4">
                                 <div class="calendar-container">
                                     <label for="startDate" class="block text-sm font-medium text-gray-700">Start
                                         Date</label>
                                     <input type="date" id="startDate" name="startDate"
-                                        class="w-full border-gray-300 rounded p-2">
+                                        class="w-full border-gray-300 rounded p-2" required>
                                 </div>
-
                                 <div class="calendar-container">
                                     <label for="endDate" class="block text-sm font-medium text-gray-700">End
                                         Date</label>
                                     <input type="date" id="endDate" name="endDate"
-                                        class="w-full border-gray-300 rounded p-2">
+                                        class="w-full border-gray-300 rounded p-2" required>
                                 </div>
                             </div>
-
-                            <!-- Hidden Fields -->
-                            <input type="hidden" id="vanId" value="">
-                            <input type="hidden" id="startDate" name="startDate">
-                            <input type="hidden" id="endDate" name="endDate">
+                            <input type="hidden" id="userId" name="userId" value="1">
+                            <input type="hidden" id="vanId" name="vanId" value="">
+                            <input type="hidden" id="startDateHidden" name="startDateHidden" value="">
+                            <input type="hidden" id="endDateHidden" name="endDateHidden" value="">
                         </div>
-                        
+
+                        <!-- Upload License PDF -->
                         <div class="upload-license-pdf bg-gray-100 p-4 rounded-lg w-full max-w-sm mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Upload License PDF</label>
-                            <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4">
+                            <div
+                                class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4">
                                 <label for="license-upload" class="flex flex-col items-center cursor-pointer">
-                                    <span class="text-gray-500 text-sm mb-1">Click to upload your license (PDF only)</span>
-                                    <input id="license-upload" type="file" accept="application/pdf" class="hidden">
+                                    <span class="text-gray-500 text-sm mb-1">Click to upload your license (PDF
+                                        only)</span>
+                                    <input id="license-upload" type="file" name="license"
+                                        accept="application/pdf" class="hidden" required>
                                 </label>
                             </div>
-                            <!-- Preview Section -->
                             <div id="pdf-preview-container" class="mt-4 hidden">
                                 <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
-                                <iframe id="pdf-preview" class="w-full h-64 border border-gray-300 rounded-lg"></iframe>
+                                <iframe id="pdf-preview"
+                                    class="w-full h-64 border border-gray-300 rounded-lg"></iframe>
                             </div>
                         </div>
-                        
 
+                        <!-- Terms and Conditions -->
                         <div class="mb-4">
-                            <input type="checkbox" id="terms" wire:click="toggleTermsAccepted" class="mr-2">
+                            <input type="checkbox" id="terms" name="terms" class="mr-2" required>
                             <label for="terms" class="text-sm text-gray-700">
                                 I agree to the <a href="#" class="text-blue-500 underline">Terms and
-                                    Conditions</a> and <a href="#" class="text-blue-500 underline">Privacy
-                                    Policy</a>.
+                                    Conditions</a> and
+                                <a href="#" class="text-blue-500 underline">Privacy Policy</a>.
                             </label>
                         </div>
 
                         <!-- Form Buttons -->
                         <div class="form-button relative ml-auto">
-
-                            <button type="button" wire:click.prevent="bookVan"
+                            <button type="submit" id="confirmBooking"
                                 class="px-4 py-2 rounded text-white bg-slate-500 cursor-not-allowed" disabled>
                                 Confirm Booking
                             </button>
-                            <button type="button" wire:click="closeBookingForm" onclick="closeModal()"
+                            <button type="button" onclick="closeModal()"
                                 class="bg-red-500 text-white px-4 py-2 rounded ml-2">
                                 Cancel
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
+
         </div>
     </div>
 </x-app-layout>
 
 <script type="module">
     dateValidator();
+    pdfPreview();
 </script>
 
-<script type="module">
-    pdfPreview();
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("bookingForm");
+        const confirmBookingButton = document.getElementById("confirmBooking");
+        const termsCheckbox = document.getElementById("terms");
+
+        // Enable submit button only when all required fields are filled and terms are checked
+        form.addEventListener("input", function() {
+            const allFieldsFilled = Array.from(form.querySelectorAll("[required]")).every(
+                (input) => input.value.trim() !== ""
+            );
+            const termsChecked = termsCheckbox.checked;
+
+            if (allFieldsFilled && termsChecked) {
+                confirmBookingButton.disabled = false;
+                confirmBookingButton.classList.remove("cursor-not-allowed", "bg-slate-500");
+                confirmBookingButton.classList.add("bg-blue-500", "hover:bg-blue-600");
+            } else {
+                confirmBookingButton.disabled = true;
+                confirmBookingButton.classList.add("cursor-not-allowed", "bg-slate-500");
+                confirmBookingButton.classList.remove("bg-blue-500", "hover:bg-blue-600");
+            }
+        });
+    });
 </script>

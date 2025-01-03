@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//todo make sure the data submitted to the database properly
+
 Route::get('/landingpage', [LandingPageController::class, 'show'])->name('landing');
 Route::post('/get-van-details', [FormController::class, 'getVanDetails'])->name('getVanDetails');
 Route::post('/get-unavailable-dates', [FormController::class, 'getUnavailableDates'])->name('getUnavailableDates');
@@ -25,6 +27,7 @@ Route::post('/get-unavailable-dates', [FormController::class, 'getUnavailableDat
 Route::middleware('auth')->group(function () {
     Route::get('/booking/{van}', [BookingController::class, 'show'])->name('booking');
     Route::post('/check-availability', [BookingController::class, 'checkAvailability'])->name('checkAvailability');
+    Route::post('/submit-booking', [BookingController::class, 'submitBooking'])->name('submitBooking');
 });
 
 
