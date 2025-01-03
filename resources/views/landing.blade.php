@@ -228,7 +228,7 @@
                         Booking Forms
                     </h2>
                     <!-- Form -->
-                    <form id="bookingForm" action="/submit-booking" method="POST" enctype="multipart/form-data">
+                    <form id="bookingForm">
                         @csrf
                         <!-- Van Details -->
                         <div class="mb-4 flex flex-row relative">
@@ -306,7 +306,7 @@
 
                         <!-- Form Buttons -->
                         <div class="form-button relative ml-auto">
-                            <button type="submit" id="confirmBooking"
+                            <button type="button" id="confirmBooking"
                                 class="px-4 py-2 rounded text-white bg-slate-500 cursor-not-allowed" disabled>
                                 Confirm Booking
                             </button>
@@ -318,7 +318,6 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
 </x-app-layout>
@@ -350,6 +349,38 @@
                 confirmBookingButton.classList.add("cursor-not-allowed", "bg-slate-500");
                 confirmBookingButton.classList.remove("bg-blue-500", "hover:bg-blue-600");
             }
+        });
+        dcoument.getElementById('confirmBooking').addEventListener("click", function(event) {
+            console.log("form triggered");
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(form);
+
+            fetch("/submit-booking", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]')
+                        .value, // CSRF token
+                    },
+                    body: formData,
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        alert(data.message);
+                        closeModal(); // Close the modal after successful submission
+                    } else if (data.errors) {
+                        // Display validation errors
+                        alert("Validation errors occurred: " + JSON.stringify(data.errors));
+                    } else {
+                        // Display general error message
+                        alert(data.message || "An error occurred while booking.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    alert("An unexpected error occurred. Please try again.");
+                });
         });
     });
 </script>

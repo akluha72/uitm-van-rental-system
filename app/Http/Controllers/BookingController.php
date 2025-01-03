@@ -53,20 +53,39 @@ class BookingController extends Controller
         ]);
 
         // Store the uploaded PDF
-        $filePath = $request->file('license')->store('licenses', 'public');
+        // $filePath = $request->file('license')->store('licenses', 'public');
 
-        // Save other booking details into the database (example)
-        Booking::create([
-            'user_id' => $validatedData['user_id'],
-            'van_id' => $validatedData['van_id'],
-            'start_date' => $validatedData['startDate'],
-            'end_date' => $validatedData['endDate'],
-            'total_amount' => 700.00,
-            'payment_status' => 'paid'
-            // 'license_path' => $filePath,
-            // Add other fields here
-        ]);
+        try {
+            // Save other booking details into the database (example)
+            Booking::create([
+                'user_id' => $validatedData['user_id'],
+                'van_id' => $validatedData['van_id'],
+                'start_date' => $validatedData['startDate'],
+                'end_date' => $validatedData['endDate'],
+                'total_amount' => 700.00,
+                'payment_status' => 'paid'
+                // 'license_path' => $filePath,
+                // Add other fields here
+            ]);
 
-        return redirect()->back()->with('success', 'Booking confirmed!');
+            dd("booking created");
+            return response()->json([
+                'success' => true,
+                'message' => 'Booking confirmed!',
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            // Log the error for debugging
+            Log::error('Booking Submission Error: ' . $e->getMessage());
+
+            // Return error response
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred during the booking process. Please try again later.',
+            ], 500);
+        }
+
+        // return redirect()->back()->with('success', 'Booking confirmed!');
     }
 }
