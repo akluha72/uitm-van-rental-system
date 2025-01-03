@@ -68,7 +68,6 @@ class BookingController extends Controller
                 // Add other fields here
             ]);
 
-            dd("booking created");
             return response()->json([
                 'success' => true,
                 'message' => 'Booking confirmed!',
