@@ -222,8 +222,8 @@
 
             {{-- booking form poupup --}}
             <div id="bookingModal"
-                class="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center hidden">
-                <div class="bg-white p-6 rounded shadow-lg w-3/4">
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                <div class="bg-white p-6 rounded shadow-lg w-3/4 max-h-[90vh] overflow-auto">
                     <h2 class="text-xl font-semibold mb-4">
                         Booking Forms
                     </h2>
@@ -251,11 +251,11 @@
                     </div>
 
                     <div>
-                        <div class="form-name-container mb-4">
+                        {{-- <div class="form-name-container mb-4">
                             <label class="block text-sm font-medium text-gray-700">Your Name</label>
                             <input type="text" wire:model="name" class="w-1/4 border-gray-300 rounded p-2"
                                 placeholder="Enter your name">
-                        </div>
+                        </div> --}}
 
                         <div class="form-calendar-container flex flex-col gap-4 mb-4">
                             <!-- Unavailable Dates Section -->
@@ -288,20 +288,22 @@
                             <input type="hidden" id="startDate" name="startDate">
                             <input type="hidden" id="endDate" name="endDate">
                         </div>
-
-
+                        
                         <div class="upload-license-pdf bg-gray-100 p-4 rounded-lg w-full max-w-sm mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Upload License PDF</label>
-                            <div
-                                class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4">
+                            <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4">
                                 <label for="license-upload" class="flex flex-col items-center cursor-pointer">
-                                    <span class="text-gray-500 text-sm mb-1">Click to upload your license (PDF
-                                        only)</span>
-                                    <input id="license-upload" type="file" wire:model="license"
-                                        accept="application/pdf" class="hidden">
+                                    <span class="text-gray-500 text-sm mb-1">Click to upload your license (PDF only)</span>
+                                    <input id="license-upload" type="file" accept="application/pdf" class="hidden">
                                 </label>
                             </div>
+                            <!-- Preview Section -->
+                            <div id="pdf-preview-container" class="mt-4 hidden">
+                                <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+                                <iframe id="pdf-preview" class="w-full h-64 border border-gray-300 rounded-lg"></iframe>
+                            </div>
                         </div>
+                        
 
                         <div class="mb-4">
                             <input type="checkbox" id="terms" wire:click="toggleTermsAccepted" class="mr-2">
@@ -333,4 +335,8 @@
 
 <script type="module">
     dateValidator();
+</script>
+
+<script type="module">
+    pdfPreview();
 </script>
