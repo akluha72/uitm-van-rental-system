@@ -259,20 +259,18 @@
                                 <div class="calendar-container">
                                     <label for="startDate" class="block text-sm font-medium text-gray-700">Start
                                         Date</label>
-                                    <input type="date" id="startDate" name="startDate"
+                                    <input type="date" id="startDate" name="start_date"
                                         class="w-full border-gray-300 rounded p-2" required>
                                 </div>
                                 <div class="calendar-container">
                                     <label for="endDate" class="block text-sm font-medium text-gray-700">End
                                         Date</label>
-                                    <input type="date" id="endDate" name="endDate"
+                                    <input type="date" id="endDate" name="end_date"
                                         class="w-full border-gray-300 rounded p-2" required>
                                 </div>
                             </div>
-                            <input type="hidden" id="userId" name="userId" value="1">
-                            <input type="hidden" id="vanId" name="vanId" value="">
-                            <input type="hidden" id="startDateHidden" name="startDateHidden" value="">
-                            <input type="hidden" id="endDateHidden" name="endDateHidden" value="">
+                            <input type="hidden" id="userId" name="user_id" value="1">
+                            <input type="hidden" id="vanId" name="van_Id" value="">
                         </div>
 
                         <!-- Upload License PDF -->

@@ -42,18 +42,18 @@ class BookingController extends Controller
 
     public function submitBooking(Request $request)
     {
-        // dd($request);
+
+        // Store the uploaded PDF
+        $filePath = $request->file('license')->store('licenses', 'public');
+   
         $validatedData = $request->validate([
             'user_id' => 'required',
             'van_id' => 'required',
-            'startDate' => 'required|date',
-            'endDate' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'license' => 'required|mimes:pdf|max:2048',
             'terms' => 'accepted',
         ]);
-
-        // Store the uploaded PDF
-        // $filePath = $request->file('license')->store('licenses', 'public');
 
         try {
             // Save other booking details into the database (example)
