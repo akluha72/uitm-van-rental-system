@@ -1,0 +1,1 @@
+run this line on production: php artisan storage:link

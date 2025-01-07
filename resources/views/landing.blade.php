@@ -270,7 +270,7 @@
                                 </div>
                             </div>
                             <input type="hidden" id="userId" name="user_id" value="1">
-                            <input type="hidden" id="vanId" name="van_Id" value="">
+                            <input type="hidden" id="vanId" name="van_id" value="">
                         </div>
 
                         <!-- Upload License PDF -->
