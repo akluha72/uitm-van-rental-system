@@ -255,14 +255,16 @@
                                 </div>
                             </div>
 
-                            <div class="flex flex-row items-center gap-4">
-                                <div class="calendar-container">
-                                    <label for="startDate" class="block text-sm font-medium text-gray-700">Start
-                                        Date</label>
+                            <div class="flex flex-row justify-evenly gap-4 w-full">
+                                <div class="calendar-container w-full">
+                                    <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
                                     <input type="date" id="startDate" name="start_date"
                                         class="w-full border-gray-300 rounded p-2" required>
+
+                                    <p class="availability-message text-red-500 italic text-xs"></p>
+                                    <p class="availability-message text-red-500 text-green-500 hidden italic text-xs"></p>
                                 </div>
-                                <div class="calendar-container">
+                                <div class="calendar-container w-full">
                                     <label for="endDate" class="block text-sm font-medium text-gray-700">End
                                         Date</label>
                                     <input type="date" id="endDate" name="end_date"

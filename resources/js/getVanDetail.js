@@ -46,6 +46,8 @@ function populateModal(data) {
     document.getElementById('vanId').value = `${data.id}`;
 }
 
+
+//to list out all the unavailable date intially. easier for the user to find a date. 
 function getUnavailableDate(vanId) {
     fetch("/get-unavailable-dates", {
         method: "POST",
