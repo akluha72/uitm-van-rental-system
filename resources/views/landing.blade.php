@@ -255,16 +255,14 @@
                                 </div>
                             </div>
 
-                            <div class="flex flex-row justify-evenly gap-4 w-full">
-                                <div class="calendar-container w-full">
-                                    <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
+                            <div class="flex flex-row items-center gap-4">
+                                <div class="calendar-container">
+                                    <label for="startDate" class="block text-sm font-medium text-gray-700">Start
+                                        Date</label>
                                     <input type="date" id="startDate" name="start_date"
                                         class="w-full border-gray-300 rounded p-2" required>
-
-                                    <p class="availability-message text-red-500 italic text-xs"></p>
-                                    <p class="availability-message text-red-500 text-green-500 hidden italic text-xs"></p>
                                 </div>
-                                <div class="calendar-container w-full">
+                                <div class="calendar-container">
                                     <label for="endDate" class="block text-sm font-medium text-gray-700">End
                                         Date</label>
                                     <input type="date" id="endDate" name="end_date"
@@ -272,7 +270,7 @@
                                 </div>
                             </div>
                             <input type="hidden" id="userId" name="user_id" value="1">
-                            <input type="hidden" id="vanId" name="van_id" value="">
+                            <input type="hidden" id="vanId" name="van_Id" value="">
                         </div>
 
                         <!-- Upload License PDF -->
@@ -283,8 +281,7 @@
                                 <label for="license-upload" class="flex flex-col items-center cursor-pointer">
                                     <span class="text-gray-500 text-sm mb-1">Click to upload your license (PDF
                                         only)</span>
-                                    <input id="license-upload" type="file" name="license"
-                                        accept="application/pdf" class="hidden" required>
+                                    <input id="license-upload" type="file" name="license" accept="application/pdf" class="hidden" required>
                                 </label>
                             </div>
                             <div id="pdf-preview-container" class="mt-4 hidden">
@@ -305,10 +302,10 @@
                         </div>
 
                         <!-- Form Buttons -->
-                        <div class="form-button relative ml-auto r-0">
+                        <div class="form-button relative ml-auto">
                             <button type="button" id="confirmBooking"
                                 class="px-4 py-2 rounded text-white bg-slate-500 cursor-not-allowed" disabled>
-                                Confirm Booking
+                                Deposit Payment
                             </button>
                             <button type="button" onclick="closeModal()"
                                 class="bg-red-500 text-white px-4 py-2 rounded ml-2">
