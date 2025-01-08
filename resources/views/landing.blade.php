@@ -305,7 +305,7 @@
                         </div>
 
                         <!-- Form Buttons -->
-                        <div class="form-button relative ml-auto">
+                        <div class="form-button relative ml-auto r-0">
                             <button type="button" id="confirmBooking"
                                 class="px-4 py-2 rounded text-white bg-slate-500 cursor-not-allowed" disabled>
                                 Confirm Booking

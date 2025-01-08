@@ -1,1 +1,9 @@
 run this line on production: php artisan storage:link
+
+#Customer booking form
+1. Price estimation calculation
+2. Upfront payment/deposit payment gateway. 
+3. Fix the date format
+4. Create a layout for deposit payment, like a next page on the popup?
+
+
