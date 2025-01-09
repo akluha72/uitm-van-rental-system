@@ -227,7 +227,7 @@
                     <h2 class="text-xl font-semibold mb-4">
                         Booking Forms
                     </h2>
-                    <!-- Form -->
+                    <!-- booking Form -->
                     <form id="bookingForm">
                         @csrf
                         <!-- Van Details -->
@@ -261,16 +261,22 @@
                                         Date</label>
                                     <input type="date" id="startDate" name="start_date"
                                         class="w-full border-gray-300 rounded p-2" required>
+                                    <p class="availability-message text-red-500 italic text-xs"></p>
+                                    <p class="availability-message text-red-500 text-green-500 hidden italic text-xs">
+                                    </p>
                                 </div>
                                 <div class="calendar-container">
                                     <label for="endDate" class="block text-sm font-medium text-gray-700">End
                                         Date</label>
                                     <input type="date" id="endDate" name="end_date"
                                         class="w-full border-gray-300 rounded p-2" required>
+
+                                    <p class="availability-message text-red-500 italic text-xs"></p>
+                                    <p class="availability-message text-red-500 text-green-500 hidden italic text-xs"> </p>
                                 </div>
                             </div>
                             <input type="hidden" id="userId" name="user_id" value="1">
-                            <input type="hidden" id="vanId" name="van_Id" value="">
+                            <input type="hidden" id="vanId" name="van_id" value="">
                         </div>
 
                         <!-- Upload License PDF -->
@@ -281,7 +287,8 @@
                                 <label for="license-upload" class="flex flex-col items-center cursor-pointer">
                                     <span class="text-gray-500 text-sm mb-1">Click to upload your license (PDF
                                         only)</span>
-                                    <input id="license-upload" type="file" name="license" accept="application/pdf" class="hidden" required>
+                                    <input id="license-upload" type="file" name="license"
+                                        accept="application/pdf" class="hidden" required>
                                 </label>
                             </div>
                             <div id="pdf-preview-container" class="mt-4 hidden">
@@ -313,6 +320,88 @@
                             </button>
                         </div>
                     </form>
+                    {{-- payment form --}}
+                    <div class="payment-form-container p-6 mt-6 rounded-md">
+                        <h2 class="text-xl text-left font-semibold mb-2">Payment</h2>
+                        <div class="w-full flex flex-row gap-4 justify-center align-middle">
+                            <div class="w-full">
+                                <form id="paymentForm">
+                                    @csrf
+                                    <div class="mb-4">
+                                        <label for="cardName" class="block text-sm font-medium text-gray-700">Full
+                                            name
+                                            (as
+                                            displayed on card)*</label>
+                                        <input type="text" id="cardName" name="card_name" placeholder="John Doe"
+                                            class="w-full border-gray-300 rounded p-2" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="cardNumber" class="block text-sm font-medium text-gray-700">Card
+                                            number*</label>
+                                        <input type="text" id="cardNumber" name="card_number"
+                                            placeholder="xxxx-xxxx-xxxx-xxxx"
+                                            class="w-full border-gray-300 rounded p-2" required>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label for="cardExpiration"
+                                                class="block text-sm font-medium text-gray-700">Card
+                                                expiration*</label>
+                                            <input type="text" id="cardExpiration" name="card_expiration"
+                                                placeholder="MM/YY" class="w-full border-gray-300 rounded p-2"
+                                                required>
+                                        </div>
+                                        <div>
+                                            <label for="cardCvv"
+                                                class="block text-sm font-medium text-gray-700">CVV*</label>
+                                            <input type="text" id="cardCvv" name="card_cvv" placeholder="•••"
+                                                class="w-full border-gray-300 rounded p-2" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit"
+                                        class="w-full bg-blue-600 text-white py-2 rounded text-lg font-medium hover:bg-blue-700">
+                                        Pay now
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="w-full">
+                                <!-- Cost Breakdown -->
+                                <div class=" bg-gray-100 p-6 rounded shadow-lg w-full max-w-md">
+                                    <h2 class="text-xl font-semibold mb-4">Cost Breakdown</h2>
+                                    <div class="flex justify-between text-gray-700 mb-2">
+                                        <span>Original Price:</span>
+                                        <span>$6,592.00</span>
+                                    </div>
+                                    <div class="flex justify-between text-green-600 mb-2">
+                                        <span>Savings:</span>
+                                        <span>-$299.00</span>
+                                    </div>
+                                    <div class="flex justify-between text-gray-700 mb-2">
+                                        <span>Store Pickup:</span>
+                                        <span>$99.00</span>
+                                    </div>
+                                    <div class="flex justify-between text-gray-700 mb-2">
+                                        <span>Tax:</span>
+                                        <span>$799.00</span>
+                                    </div>
+                                    <hr class="my-4 border-gray-300">
+                                    <div class="flex justify-between text-gray-900 text-lg font-bold">
+                                        <span>Total:</span>
+                                        <span>$7,191.00</span>
+                                    </div>
+                                    <div class="flex justify-center gap-4 mt-4">
+                                        <img src="https://img.icons8.com/ios-filled/50/paypal.png" alt="PayPal"
+                                            class="h-6" />
+                                        <img src="https://img.icons8.com/ios-filled/50/visa.png" alt="Visa"
+                                            class="h-6" />
+                                        <img src="https://img.icons8.com/ios-filled/50/mastercard.png"
+                                            alt="MasterCard" class="h-6" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -357,7 +446,7 @@
                     method: "POST",
                     headers: {
                         "X-CSRF-TOKEN": document.querySelector('input[name="_token"]')
-                        .value, // CSRF token
+                            .value, // CSRF token
                     },
                     body: formData,
                 })
@@ -365,7 +454,7 @@
                 .then((data) => {
                     if (data.success) {
                         alert(data.message);
-                        closeModal(); // Close the modal after successful submission
+                        closeModal();
                     } else if (data.errors) {
                         // Display validation errors
                         alert("Validation errors occurred: " + JSON.stringify(data.errors));

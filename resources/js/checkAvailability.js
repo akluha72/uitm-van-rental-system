@@ -3,7 +3,7 @@ export function dateValidator() {
         document.querySelector("#startDate").addEventListener("change", async function () {
             const startDate = document.querySelector("#startDate").value;
             const endDate = document.querySelector("#endDate").value;
-            const vanId = document.querySelector("#vanId").value; // Ensure this exists
+            const vanId = document.querySelector("#vanId").value; 
 
             if (startDate && endDate) {
                 const available = await checkDateAvailability(vanId, startDate, endDate);
@@ -19,7 +19,7 @@ export function dateValidator() {
         document.querySelector("#endDate").addEventListener("change", async function () {
             const startDate = document.querySelector("#startDate").value;
             const endDate = document.querySelector("#endDate").value;
-            const vanId = document.querySelector("#vanId").value; // Ensure this exists
+            const vanId = document.querySelector("#vanId").value;
 
             if (endDate && startDate) {
                 const available = await checkDateAvailability(vanId, endDate, startDate);

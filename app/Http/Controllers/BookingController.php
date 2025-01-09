@@ -44,7 +44,6 @@ class BookingController extends Controller
     public function submitBooking(Request $request)
     {
         $filePath = $request->file('license')->store('licenses', 'public');
-        // dd($filePath);
 
         try {
             // Store the uploaded PDF in the public storage
@@ -80,7 +79,7 @@ class BookingController extends Controller
             // Return error response
             return response()->json([
                 'success' => false,
-                'message' => 'An error occurred during the booking process. Please try again later.',
+                'message' => 'An error occurred during the booking process. Please try again later. from backend',
             ], 500);
         }
     }

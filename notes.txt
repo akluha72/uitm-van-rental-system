@@ -1,9 +1,13 @@
 run this line on production: php artisan storage:link
 
 #Customer booking form
-1. Price estimation calculation
+1. Price estimation calculation :c
 2. Upfront payment/deposit payment gateway. 
 3. Fix the date format
 4. Create a layout for deposit payment, like a next page on the popup?
 
 
+09/01/25
+1. work on the payment forms
+2. auth user only can proceed to the booking form. or else it will redirect to login page. 
+3. consider intergrating google login? 

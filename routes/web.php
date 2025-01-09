@@ -16,10 +16,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-//todo make sure the data submitted to the database properly
-//fix for the form submission use ajax method. not the blade method
-
 Route::get('/landingpage', [LandingPageController::class, 'show'])->name('landing');
 Route::post('/get-van-details', [FormController::class, 'getVanDetails'])->name('getVanDetails');
 Route::post('/get-unavailable-dates', [FormController::class, 'getUnavailableDates'])->name('getUnavailableDates');
