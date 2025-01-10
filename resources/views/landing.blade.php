@@ -321,17 +321,14 @@
                         </div>
                     </form>
                     {{-- payment form --}}
-                    <div class="payment-form-container p-6 mt-6 rounded-md">
+                    <div class="payment-form-container mt-6 p-6 rounded-md flex flex-col align-center">
                         <h2 class="text-xl text-left font-semibold mb-2">Payment</h2>
-                        <div class="w-full flex flex-row gap-4 justify-center align-middle">
-                            <div class="w-full">
+                        <div class="w-full flex flex-row gap-4 justify-between">
+                            <div class="grow mt-4">
                                 <form id="paymentForm">
                                     @csrf
                                     <div class="mb-4">
-                                        <label for="cardName" class="block text-sm font-medium text-gray-700">Full
-                                            name
-                                            (as
-                                            displayed on card)*</label>
+                                        <label for="cardName" class="block text-sm font-medium text-gray-700">Full name(as displayed on card)*</label>
                                         <input type="text" id="cardName" name="card_name" placeholder="John Doe"
                                             class="w-full border-gray-300 rounded p-2" required>
                                     </div>
@@ -365,9 +362,9 @@
                                 </form>
                             </div>
 
-                            <div class="w-full">
+                            <div class="grow">
                                 <!-- Cost Breakdown -->
-                                <div class=" bg-gray-100 p-6 rounded shadow-lg w-full max-w-md">
+                                <div class=" bg-gray-100 p-6 rounded shadow-lg">
                                     <h2 class="text-xl font-semibold mb-4">Cost Breakdown</h2>
                                     <div class="flex justify-between text-gray-700 mb-2">
                                         <span>Original Price:</span>
