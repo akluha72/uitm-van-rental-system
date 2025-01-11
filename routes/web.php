@@ -20,6 +20,15 @@ Route::get('/landingpage', [LandingPageController::class, 'show'])->name('landin
 Route::post('/get-van-details', [FormController::class, 'getVanDetails'])->name('getVanDetails');
 Route::post('/get-unavailable-dates', [FormController::class, 'getUnavailableDates'])->name('getUnavailableDates');
 
+Route::get('/fpx-payment', function () {
+    return view('fpx-payment');
+})->name('fpx.payment');
+
+Route::post('/fpx-process', function () {
+    // Logic for FPX payment processing goes here
+    return redirect()->route('fpx.payment')->with('status', 'Payment processed!');
+})->name('fpx.process');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/booking/{van}', [BookingController::class, 'show'])->name('booking');

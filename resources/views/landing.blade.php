@@ -227,8 +227,11 @@
                     <h2 class="text-xl font-semibold mb-4">
                         Booking Forms
                     </h2>
+                    <div class="form-section-container">
+
+                    </div>
                     <!-- booking Form -->
-                    <form id="bookingForm">
+                    <form id="bookingForm" class="relative">
                         @csrf
                         <!-- Van Details -->
                         <div class="mb-4 flex flex-row relative">
@@ -246,159 +249,120 @@
                             </div>
                         </div>
 
-                        <!-- Form Content -->
-                        <div class="form-calendar-container flex flex-col gap-4 mb-4">
-                            <div class="unavailable-dates-container">
-                                <label class="block text-sm font-medium text-red-700">Unavailable Dates</label>
-                                <div class="unavailable-dates-list flex flex-col gap-2">
-                                    {{-- Data here populated from the jsfile --}}
+                        <div class="form-input-section flex bg-blue-200 p-2 justify-around">
+                            <!-- Form Content -->
+                            <div class="form-calendar-container flex flex-col gap-4 mb-4  grow">
+                                <div class="unavailable-dates-container">
+                                    <label class="block text-sm font-medium text-red-700">Unavailable Dates</label>
+                                    <div class="unavailable-dates-list flex flex-col gap-2">
+                                        {{-- Data here populated from the jsfile --}}
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row items-center gap-4">
+                                    <div class="calendar-container">
+                                        <label for="startDate" class="block text-sm font-medium text-gray-700">Start
+                                            Date</label>
+                                        <input type="date" id="startDate" name="start_date"
+                                            class="w-full border-gray-300 rounded p-2" required>
+                                        <p class="availability-message text-red-500 italic text-xs"></p>
+                                        <p
+                                            class="availability-message text-red-500 text-green-500 hidden italic text-xs">
+                                        </p>
+                                    </div>
+                                    <div class="calendar-container">
+                                        <label for="endDate" class="block text-sm font-medium text-gray-700">End
+                                            Date</label>
+                                        <input type="date" id="endDate" name="end_date"
+                                            class="w-full border-gray-300 rounded p-2" required>
+
+                                        <p class="availability-message text-red-500 italic text-xs"></p>
+                                        <p
+                                            class="availability-message text-red-500 text-green-500 hidden italic text-xs">
+                                        </p>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="userId" name="user_id" value="1">
+                                <input type="hidden" id="vanId" name="van_id" value="">
+
+                                <!-- Upload License PDF -->
+                                <div class="upload-license-pdf bg-gray-100 p-4 rounded-lg w-full max-w-sm mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Upload License
+                                        PDF</label>
+                                    <div
+                                        class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4">
+                                        <label for="license-upload" class="flex flex-col items-center cursor-pointer">
+                                            <span class="text-gray-500 text-sm mb-1">Click to upload your license (PDF
+                                                only)</span>
+                                            <input id="license-upload" type="file" name="license"
+                                                accept="application/pdf" class="hidden" required>
+                                        </label>
+                                    </div>
+                                    <div id="pdf-preview-container" class="mt-4 hidden">
+                                        <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+                                        <iframe id="pdf-preview"
+                                            class="w-full h-64 border border-gray-300 rounded-lg"></iframe>
+                                    </div>
+                                </div>
+
+                                <!-- Terms and Conditions -->
+                                <div class="mb-4">
+                                    <input type="checkbox" id="terms" name="terms" class="mr-2" required>
+                                    <label for="terms" class="text-sm text-gray-700">
+                                        I agree to the <a href="#" class="text-blue-500 underline">Terms and
+                                            Conditions</a> and
+                                        <a href="#" class="text-blue-500 underline">Privacy Policy</a>.
+                                    </label>
                                 </div>
                             </div>
 
-                            <div class="flex flex-row items-center gap-4">
-                                <div class="calendar-container">
-                                    <label for="startDate" class="block text-sm font-medium text-gray-700">Start
-                                        Date</label>
-                                    <input type="date" id="startDate" name="start_date"
-                                        class="w-full border-gray-300 rounded p-2" required>
-                                    <p class="availability-message text-red-500 italic text-xs"></p>
-                                    <p class="availability-message text-red-500 text-green-500 hidden italic text-xs">
-                                    </p>
+                            <!-- Cost Breakdown -->
+                            <div class=" bg-gray-100 p-6 rounded grow max-h-96">
+                                <h2 class="text-xl font-semibold mb-4">Cost Breakdown</h2>
+                                <div class="flex justify-between text-gray-700 mb-2">
+                                    <span>Original Price:</span>
+                                    <span>$6,592.00</span>
                                 </div>
-                                <div class="calendar-container">
-                                    <label for="endDate" class="block text-sm font-medium text-gray-700">End
-                                        Date</label>
-                                    <input type="date" id="endDate" name="end_date"
-                                        class="w-full border-gray-300 rounded p-2" required>
-
-                                    <p class="availability-message text-red-500 italic text-xs"></p>
-                                    <p class="availability-message text-red-500 text-green-500 hidden italic text-xs"> </p>
+                                <div class="flex justify-between text-green-600 mb-2">
+                                    <span>Savings:</span>
+                                    <span>-$299.00</span>
+                                </div>
+                                <div class="flex justify-between text-gray-700 mb-2">
+                                    <span>Store Pickup:</span>
+                                    <span>$99.00</span>
+                                </div>
+                                <div class="flex justify-between text-gray-700 mb-2">
+                                    <span>Tax:</span>
+                                    <span>$799.00</span>
+                                </div>
+                                <hr class="my-4 border-gray-300">
+                                <div class="flex justify-between text-gray-900 text-lg font-bold">
+                                    <span>Total:</span>
+                                    <span>$7,191.00</span>
+                                </div>
+                                <div class="flex justify-center gap-4 mt-4">
+                                    <img src="https://img.icons8.com/ios-filled/50/paypal.png" alt="PayPal"
+                                        class="h-6" />
+                                    <img src="https://img.icons8.com/ios-filled/50/visa.png" alt="Visa"
+                                        class="h-6" />
+                                    <img src="https://img.icons8.com/ios-filled/50/mastercard.png" alt="MasterCard"
+                                        class="h-6" />
                                 </div>
                             </div>
-                            <input type="hidden" id="userId" name="user_id" value="1">
-                            <input type="hidden" id="vanId" name="van_id" value="">
                         </div>
-
-                        <!-- Upload License PDF -->
-                        <div class="upload-license-pdf bg-gray-100 p-4 rounded-lg w-full max-w-sm mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload License PDF</label>
-                            <div
-                                class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4">
-                                <label for="license-upload" class="flex flex-col items-center cursor-pointer">
-                                    <span class="text-gray-500 text-sm mb-1">Click to upload your license (PDF
-                                        only)</span>
-                                    <input id="license-upload" type="file" name="license"
-                                        accept="application/pdf" class="hidden" required>
-                                </label>
-                            </div>
-                            <div id="pdf-preview-container" class="mt-4 hidden">
-                                <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
-                                <iframe id="pdf-preview"
-                                    class="w-full h-64 border border-gray-300 rounded-lg"></iframe>
-                            </div>
-                        </div>
-
-                        <!-- Terms and Conditions -->
-                        <div class="mb-4">
-                            <input type="checkbox" id="terms" name="terms" class="mr-2" required>
-                            <label for="terms" class="text-sm text-gray-700">
-                                I agree to the <a href="#" class="text-blue-500 underline">Terms and
-                                    Conditions</a> and
-                                <a href="#" class="text-blue-500 underline">Privacy Policy</a>.
-                            </label>
-                        </div>
-
                         <!-- Form Buttons -->
-                        <div class="form-button relative ml-auto">
-                            <button type="button" id="confirmBooking"
+                        <div class="form-button ml-auto mt-6">
+
+                            <a href="/payment-fpx" type="button" id="confirmBooking"
                                 class="px-4 py-2 rounded text-white bg-slate-500 cursor-not-allowed" disabled>
                                 Deposit Payment
-                            </button>
+                            </a>
                             <button type="button" onclick="closeModal()"
                                 class="bg-red-500 text-white px-4 py-2 rounded ml-2">
                                 Cancel
                             </button>
                         </div>
                     </form>
-                    {{-- payment form --}}
-                    <div class="payment-form-container mt-6 p-6 rounded-md flex flex-col align-center">
-                        <h2 class="text-xl text-left font-semibold mb-2">Payment</h2>
-                        <div class="w-full flex flex-row gap-4 justify-between">
-                            <div class="grow mt-4">
-                                <form id="paymentForm">
-                                    @csrf
-                                    <div class="mb-4">
-                                        <label for="cardName" class="block text-sm font-medium text-gray-700">Full name(as displayed on card)*</label>
-                                        <input type="text" id="cardName" name="card_name" placeholder="John Doe"
-                                            class="w-full border-gray-300 rounded p-2" required>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="cardNumber" class="block text-sm font-medium text-gray-700">Card
-                                            number*</label>
-                                        <input type="text" id="cardNumber" name="card_number"
-                                            placeholder="xxxx-xxxx-xxxx-xxxx"
-                                            class="w-full border-gray-300 rounded p-2" required>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-4 mb-4">
-                                        <div>
-                                            <label for="cardExpiration"
-                                                class="block text-sm font-medium text-gray-700">Card
-                                                expiration*</label>
-                                            <input type="text" id="cardExpiration" name="card_expiration"
-                                                placeholder="MM/YY" class="w-full border-gray-300 rounded p-2"
-                                                required>
-                                        </div>
-                                        <div>
-                                            <label for="cardCvv"
-                                                class="block text-sm font-medium text-gray-700">CVV*</label>
-                                            <input type="text" id="cardCvv" name="card_cvv" placeholder="•••"
-                                                class="w-full border-gray-300 rounded p-2" required>
-                                        </div>
-                                    </div>
-                                    <button type="submit"
-                                        class="w-full bg-blue-600 text-white py-2 rounded text-lg font-medium hover:bg-blue-700">
-                                        Pay now
-                                    </button>
-                                </form>
-                            </div>
-
-                            <div class="grow">
-                                <!-- Cost Breakdown -->
-                                <div class=" bg-gray-100 p-6 rounded shadow-lg">
-                                    <h2 class="text-xl font-semibold mb-4">Cost Breakdown</h2>
-                                    <div class="flex justify-between text-gray-700 mb-2">
-                                        <span>Original Price:</span>
-                                        <span>$6,592.00</span>
-                                    </div>
-                                    <div class="flex justify-between text-green-600 mb-2">
-                                        <span>Savings:</span>
-                                        <span>-$299.00</span>
-                                    </div>
-                                    <div class="flex justify-between text-gray-700 mb-2">
-                                        <span>Store Pickup:</span>
-                                        <span>$99.00</span>
-                                    </div>
-                                    <div class="flex justify-between text-gray-700 mb-2">
-                                        <span>Tax:</span>
-                                        <span>$799.00</span>
-                                    </div>
-                                    <hr class="my-4 border-gray-300">
-                                    <div class="flex justify-between text-gray-900 text-lg font-bold">
-                                        <span>Total:</span>
-                                        <span>$7,191.00</span>
-                                    </div>
-                                    <div class="flex justify-center gap-4 mt-4">
-                                        <img src="https://img.icons8.com/ios-filled/50/paypal.png" alt="PayPal"
-                                            class="h-6" />
-                                        <img src="https://img.icons8.com/ios-filled/50/visa.png" alt="Visa"
-                                            class="h-6" />
-                                        <img src="https://img.icons8.com/ios-filled/50/mastercard.png"
-                                            alt="MasterCard" class="h-6" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
