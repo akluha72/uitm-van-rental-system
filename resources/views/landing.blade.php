@@ -19,7 +19,7 @@
         <img src="https://readymadeui.com/bg-effect.svg" class="absolute inset-0 w-full h-full" />
     </div>
 
-    <div class="px-4 sm:px-10">
+    <div class="landing-page-section px-4 sm:px-10">
         <div class="mt-32 max-w-7xl mx-auto">
             <div class="mb-16 max-w-2xl text-center mx-auto">
                 <h2 class="md:text-4xl text-3xl font-extrabold mb-6">Our Features</h2>
@@ -227,9 +227,6 @@
                     <h2 class="text-xl font-semibold mb-4">
                         Booking Forms
                     </h2>
-                    <div class="form-section-container">
-
-                    </div>
                     <!-- booking Form -->
                     <form id="bookingForm" class="relative">
                         @csrf
@@ -249,7 +246,7 @@
                             </div>
                         </div>
 
-                        <div class="form-input-section flex bg-blue-200 p-2 justify-around">
+                        <div class="form-input-section flex flex-col lg:flex-row bg-blue-200 p-2 justify-around">
                             <!-- Form Content -->
                             <div class="form-calendar-container flex flex-col gap-4 mb-4  grow">
                                 <div class="unavailable-dates-container">
@@ -259,29 +256,23 @@
                                     </div>
                                 </div>
 
-                                <div class="flex flex-row items-center gap-4">
-                                    <div class="calendar-container">
-                                        <label for="startDate" class="block text-sm font-medium text-gray-700">Start
-                                            Date</label>
-                                        <input type="date" id="startDate" name="start_date"
-                                            class="w-full border-gray-300 rounded p-2" required>
-                                        <p class="availability-message text-red-500 italic text-xs"></p>
-                                        <p
-                                            class="availability-message text-red-500 text-green-500 hidden italic text-xs">
-                                        </p>
+                                <div class="date-input-and-availability-message">
+                                    <div class="flex flex-row items-center gap-4">
+                                        <div class="calendar-container">
+                                            <label for="startDate" class="block text-sm font-medium text-gray-700">Start
+                                                Date</label>
+                                            <input type="date" id="startDate" name="start_date"
+                                                class="w-full border-gray-300 rounded p-2" required>
+                                        </div>
+                                        <div class="calendar-container">
+                                            <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
+                                            <input type="date" id="endDate" name="end_date" class="w-full border-gray-300 rounded p-2" required>
+                                        </div>
                                     </div>
-                                    <div class="calendar-container">
-                                        <label for="endDate" class="block text-sm font-medium text-gray-700">End
-                                            Date</label>
-                                        <input type="date" id="endDate" name="end_date"
-                                            class="w-full border-gray-300 rounded p-2" required>
-
-                                        <p class="availability-message text-red-500 italic text-xs"></p>
-                                        <p
-                                            class="availability-message text-red-500 text-green-500 hidden italic text-xs">
-                                        </p>
-                                    </div>
+                                    <p class="availability-message text-red-500 italic text-xs"></p>
+                                    <p class="availability-message text-red-500 text-green-500 hidden italic text-xs"> </p>
                                 </div>
+                               
                                 <input type="hidden" id="userId" name="user_id" value="1">
                                 <input type="hidden" id="vanId" name="van_id" value="">
 
@@ -317,29 +308,22 @@
                             </div>
 
                             <!-- Cost Breakdown -->
-                            <div class=" bg-gray-100 p-6 rounded grow max-h-96">
+                            <div class="cost-breakdown bg-gray-100 p-6 rounded grow max-h-96">
                                 <h2 class="text-xl font-semibold mb-4">Cost Breakdown</h2>
                                 <div class="flex justify-between text-gray-700 mb-2">
-                                    <span>Original Price:</span>
-                                    <span>$6,592.00</span>
-                                </div>
-                                <div class="flex justify-between text-green-600 mb-2">
-                                    <span>Savings:</span>
-                                    <span>-$299.00</span>
+                                    <span>Base Rental Fee:</span>
+                                    <span id="baseRentalFee">RM 0.00</span>
                                 </div>
                                 <div class="flex justify-between text-gray-700 mb-2">
-                                    <span>Store Pickup:</span>
-                                    <span>$99.00</span>
-                                </div>
-                                <div class="flex justify-between text-gray-700 mb-2">
-                                    <span>Tax:</span>
-                                    <span>$799.00</span>
+                                    <span>Deposit (10%):</span>
+                                    <span id="deposit">RM 0.00</span>
                                 </div>
                                 <hr class="my-4 border-gray-300">
                                 <div class="flex justify-between text-gray-900 text-lg font-bold">
                                     <span>Total:</span>
-                                    <span>$7,191.00</span>
+                                    <span id="total">RM 0.00</span>
                                 </div>
+
                                 <div class="flex justify-center gap-4 mt-4">
                                     <img src="https://img.icons8.com/ios-filled/50/paypal.png" alt="PayPal"
                                         class="h-6" />
@@ -353,7 +337,7 @@
                         <!-- Form Buttons -->
                         <div class="form-button ml-auto mt-6">
 
-                            <a href="/payment-fpx" type="button" id="confirmBooking"
+                            <a type="button" id="confirmBooking"
                                 class="px-4 py-2 rounded text-white bg-slate-500 cursor-not-allowed" disabled>
                                 Deposit Payment
                             </a>
@@ -397,9 +381,9 @@
                 confirmBookingButton.classList.remove("bg-blue-500", "hover:bg-blue-600");
             }
         });
+
         document.getElementById('confirmBooking').addEventListener("click", function(event) {
-            console.log("form triggered");
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault();
 
             const formData = new FormData(form);
 
@@ -407,15 +391,17 @@
                     method: "POST",
                     headers: {
                         "X-CSRF-TOKEN": document.querySelector('input[name="_token"]')
-                            .value, // CSRF token
+                            .value,
                     },
                     body: formData,
                 })
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
-                        alert(data.message);
-                        closeModal();
+                        // alert(data.message);
+                        // window.location.href = data.redirect_url;
+                        console.log("form submit success");
+                        // closeModal();
                     } else if (data.errors) {
                         // Display validation errors
                         alert("Validation errors occurred: " + JSON.stringify(data.errors));

@@ -43,11 +43,15 @@ class BookingController extends Controller
 
     public function submitBooking(Request $request)
     {
-        $filePath = $request->file('license')->store('licenses', 'public');
-
         try {
-            // Store the uploaded PDF in the public storage
-            $filePath = $request->file('license')->store('licenses', 'public');
+            if ($request->hasFile('license')) {
+                $filePath = $request->file('license')->store('licenses', 'public');
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No license file was uploaded.',
+                ], 400);
+            }
 
             // Update the user's license path in the users table
             $user = User::find($request['user_id']);
@@ -67,10 +71,22 @@ class BookingController extends Controller
                 'payment_status' => 'paid',
             ]);
 
+            // Log::info('Redirecting to FPX...');
+  
             return response()->json([
                 'success' => true,
-                'message' => 'Booking confirmed!',
-            ], 200);
+                'message' => 'Booking submitted successfully.',
+                'redirect_url' => route('payment'),
+            ]);
+
+            
+            // 
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Booking submitted successfully.',
+            //     'redirect_url' => route('fpx.payment'),
+            // ]);
+
 
         } catch (\Exception $e) {
             // Log the error for debugging
@@ -82,5 +98,11 @@ class BookingController extends Controller
                 'message' => 'An error occurred during the booking process. Please try again later. from backend',
             ], 500);
         }
+    }
+
+    public function showPayment(Request $request)
+    {
+        // You can handle logic here if needed, for example, passing data to the view
+        return view('payment'); // Ensure 'fpx.blade.php' exists in resources/views
     }
 }

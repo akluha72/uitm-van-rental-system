@@ -1,15 +1,9 @@
 <x-app-layout>
     <div class="flex justify-center items-center min-h-screen">
         <div class="bg-white p-4 rounded-lg shadow-lg w-3/4 mx-auto">
-            <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">FPX Payment</h1>
+            <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Payment</h1>
     
-            @if (session('status'))
-                <div class="bg-green-100 text-green-700 p-4 rounded-lg mb-4">
-                    {{ session('status') }}
-                </div>
-            @endif
-    
-            <form action="{{ route('fpx.process') }}" method="POST" class="space-y-4 flex flex-col">
+            <form  class="space-y-4 flex flex-col">
                 @csrf
                 <div>
                     <label for="amount" class="block text-gray-700 font-medium mb-2">Payment Amount</label>

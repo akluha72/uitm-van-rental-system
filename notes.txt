@@ -8,6 +8,6 @@ run this line on production: php artisan storage:link
 
 
 //----
-1. make a calculation of the date selected and the price need to be paid
+1. make a calculation of the date selected and the price need to be paid :checked: 
 
 
