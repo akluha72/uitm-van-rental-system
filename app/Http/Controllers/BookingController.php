@@ -44,6 +44,7 @@ class BookingController extends Controller
     public function submitBooking(Request $request)
     {
         try {
+
             if ($request->hasFile('license')) {
                 $filePath = $request->file('license')->store('licenses', 'public');
             } else {
@@ -61,31 +62,30 @@ class BookingController extends Controller
                 ]);
             }
 
+            // Determine booking type based on the duration
+            $startDate = \Carbon\Carbon::parse($request['start_date']);
+            $endDate = \Carbon\Carbon::parse($request['end_date']);
+            $durationInMonths = $startDate->diffInMonths($endDate);
+
+            $bookingType = $durationInMonths > 1 ? 'long-term' : 'short-term';
+
             // Save booking details into the database
             Booking::create([
                 'user_id' => $request['user_id'],
                 'van_id' => $request['van_id'],
                 'start_date' => $request['start_date'],
                 'end_date' => $request['end_date'],
-                'total_amount' => 700.00, // Example amount
+                'total_amount' => $request['total_amount'],
                 'payment_status' => 'paid',
+                'booking_status' => 'pending confirmation',
+                'booking_type' => $bookingType,
             ]);
 
-            // Log::info('Redirecting to FPX...');
-  
             return response()->json([
                 'success' => true,
                 'message' => 'Booking submitted successfully.',
                 'redirect_url' => route('payment'),
             ]);
-
-            
-            // 
-            // return response()->json([
-            //     'success' => true,
-            //     'message' => 'Booking submitted successfully.',
-            //     'redirect_url' => route('fpx.payment'),
-            // ]);
 
 
         } catch (\Exception $e) {
@@ -102,7 +102,6 @@ class BookingController extends Controller
 
     public function showPayment(Request $request)
     {
-        // You can handle logic here if needed, for example, passing data to the view
         return view('payment'); // Ensure 'fpx.blade.php' exists in resources/views
     }
 }

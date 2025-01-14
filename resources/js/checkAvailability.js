@@ -133,5 +133,8 @@ function updateCostBreakdown(totalCost) {
     if (totalElement) {
         totalElement.textContent = `RM ${(totalCost + deposit).toFixed(2)}`;
     }
+
+    const totalAmount = document.getElementById('totalAmount');
+    totalAmount.value = (totalCost + deposit).toFixed(2);
 }
 

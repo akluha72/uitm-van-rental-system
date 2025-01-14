@@ -275,6 +275,7 @@
                                
                                 <input type="hidden" id="userId" name="user_id" value="1">
                                 <input type="hidden" id="vanId" name="van_id" value="">
+                                <input type="hidden" id="totalAmount" name="total_amount" value="">
 
                                 <!-- Upload License PDF -->
                                 <div class="upload-license-pdf bg-gray-100 p-4 rounded-lg w-full max-w-sm mb-4">
@@ -398,10 +399,7 @@
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
-                        // alert(data.message);
-                        // window.location.href = data.redirect_url;
-                        console.log("form submit success");
-                        // closeModal();
+                        window.location.href = data.redirect_url;
                     } else if (data.errors) {
                         // Display validation errors
                         alert("Validation errors occurred: " + JSON.stringify(data.errors));

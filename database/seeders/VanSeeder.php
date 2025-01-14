@@ -16,7 +16,7 @@ class VanSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        foreach (range(1, 20) as $index) {
+        foreach (range(1, 10) as $index) {
             DB::table('vans')->insert([
                 'model' => $faker->word,
                 'capacity' => $faker->numberBetween(4, 15),

@@ -29,7 +29,6 @@ function openBookingModal() {
     document.getElementById('bookingModal').classList.remove('hidden');
 }
 
-
 export function closeModal() {
     console.log("closeModal Triggered");
     document.getElementById('bookingModal').classList.add('hidden');
@@ -45,7 +44,6 @@ function populateModal(data) {
     document.getElementById('modalLicense').innerText = `License Plate: ${data.license_plate}`;
     document.getElementById('vanId').value = `${data.id}`;
 }
-
 
 //to list out all the unavailable date intially. easier for the user to find a date. 
 function getUnavailableDate(vanId) {
