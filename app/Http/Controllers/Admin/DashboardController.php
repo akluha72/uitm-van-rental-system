@@ -18,7 +18,7 @@ class DashboardController extends Controller
         ];
 
         // Pass bookings for DataTable
-        $bookings = Booking::all();
+        $bookings = Booking::where('booking_status', 'pending confirmation')->get();
 
         return view('admin.dashboard', compact('data', 'bookings'));
     }
