@@ -6,6 +6,12 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\CustomerDashboardController;
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\VansController;
+use App\Http\Controllers\Admin\BookingsController;
+use App\Http\Controllers\Admin\CustomersController;
+use App\Http\Controllers\Admin\PaymentsController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +41,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('vans', VansController::class);
+    Route::resource('bookings', BookingsController::class)->only(['index', 'show']);
+    Route::get('bookings/{id}/approve', [BookingsController::class, 'approve'])->name('bookings.approve');
+    Route::get('bookings/{id}/reject', [BookingsController::class, 'reject'])->name('bookings.reject');
+    Route::resource('customers', CustomersController::class)->only(['index', 'show']);
+    Route::get('payments', [PaymentsController::class, 'index'])->name('payments.index');
+    Route::get('payments/export', [PaymentsController::class, 'export'])->name('payments.export');
 });
 
 Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');

@@ -44,7 +44,6 @@ class Booking extends Model
         return $this->hasOne(Payment::class);
     }
 
-
     protected static function boot()
     {
         parent::boot();

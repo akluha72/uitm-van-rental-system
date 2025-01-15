@@ -44,7 +44,7 @@ class BookingController extends Controller
     public function submitBooking(Request $request)
     {
         try {
-
+            // Handle license file upload
             if ($request->hasFile('license')) {
                 $filePath = $request->file('license')->store('licenses', 'public');
             } else {
@@ -54,7 +54,7 @@ class BookingController extends Controller
                 ], 400);
             }
 
-            // Update the user's license path in the users table
+            // Update user's license path
             $user = User::find($request['user_id']);
             if ($user) {
                 $user->update([
@@ -62,32 +62,47 @@ class BookingController extends Controller
                 ]);
             }
 
-            // Determine booking type based on the duration
+            // Determine booking type based on duration
             $startDate = \Carbon\Carbon::parse($request['start_date']);
             $endDate = \Carbon\Carbon::parse($request['end_date']);
             $durationInMonths = $startDate->diffInMonths($endDate);
 
             $bookingType = $durationInMonths > 1 ? 'long-term' : 'short-term';
 
-            // Save booking details into the database
-            Booking::create([
+            // Create the booking record
+            $booking = Booking::create([
                 'user_id' => $request['user_id'],
                 'van_id' => $request['van_id'],
                 'start_date' => $request['start_date'],
                 'end_date' => $request['end_date'],
                 'total_amount' => $request['total_amount'],
-                'payment_status' => 'paid',
+                'payment_status' => 'pending', // Default payment status
                 'booking_status' => 'pending confirmation',
                 'booking_type' => $bookingType,
             ]);
+
+            // Generate payment schedule for long-term bookings
+            if ($bookingType === 'long-term') {
+                $totalMonths = $durationInMonths;
+                $monthlyPayment = $request['total_amount'] / $totalMonths;
+
+                $paymentSchedule = [];
+                for ($i = 0; $i < $totalMonths; $i++) {
+                    $paymentSchedule[] = [
+                        'month' => $startDate->copy()->addMonths($i)->format('Y-m'),
+                        'amount_due' => $monthlyPayment,
+                        'amount_paid' => 0,
+                    ];
+                }
+
+                $booking->update(['payment_schedule' => $paymentSchedule]);
+            }
 
             return response()->json([
                 'success' => true,
                 'message' => 'Booking submitted successfully.',
                 'redirect_url' => route('payment'),
             ]);
-
-
         } catch (\Exception $e) {
             // Log the error for debugging
             Log::error('Booking Submission Error: ' . $e->getMessage());
@@ -95,7 +110,7 @@ class BookingController extends Controller
             // Return error response
             return response()->json([
                 'success' => false,
-                'message' => 'An error occurred during the booking process. Please try again later. from backend',
+                'message' => 'An error occurred during the booking process. Please try again later.',
             ], 500);
         }
     }

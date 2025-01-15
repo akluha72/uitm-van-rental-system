@@ -11,3 +11,32 @@ run this line on production: php artisan storage:link
 1. make a calculation of the date selected and the price need to be paid :checked: 
 
 
+//---
+short term flow
+- user sumbit booking. 
+- redirect user to the dashboard
+- admin review the booking application
+- admin approved the application
+-- system change the status approved and show the button for user to proceed with the payment
+- user get notified email? 
+- user make a full payment
+-- then take the van. 
+-- once user return the van
+-- admin will pay back the deposit.
+
+long term flow
+- user submit booking.
+- user sumbit booking. 
+- redirect user to the dashboard
+- admin review the booking application
+- admin approved the application
+-- system change the status approved and show the button for user to proceed with the payment (on monthly basis)
+- user get notified email on monthly basis
+- user make a monthly payment
+- once user return the van 
+- admin will return the deposit. 
+
+
+//----WIP
+1. admin dasbboard
+2. seperate pending booking list and booking record

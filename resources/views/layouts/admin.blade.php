@@ -25,9 +25,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.5/source/jsCalendar.min.css"
         integrity="sha384-CTBW6RKuDwU/TWFl2qLavDqLuZtBzcGxBXY8WvQ0lShXglO/DsUvGkXza+6QTxs0" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-
     <style>
         body {
             font-family: Poppins, sans-serif;
@@ -38,7 +35,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-[#f8f9ff] font-sans antialiased max-w-[1920px] mx-auto">
+<body class="bg-[#f8f9ff] font-sans antialiased max-w-[1920px] mx-auto h-screen">
     <div class=" bg-[#f8f9ff] text-[18px]">
         @include('layouts.navigation')
 
