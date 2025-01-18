@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 
+use App\Mail\BookingReviewNotification;
+use Illuminate\Support\Facades\Mail;
+
+
 use Illuminate\Http\Request;
 
 class BookingsController extends Controller
@@ -37,6 +41,8 @@ class BookingsController extends Controller
         }
 
         $booking->save();
+
+        Mail::to($booking->user->email)->send(new BookingReviewNotification($booking, $request->status, $request->comment));
 
         // Notify the user
         // $booking->user->notify(new BookingReviewedNotification($booking));

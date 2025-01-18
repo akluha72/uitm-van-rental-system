@@ -76,7 +76,7 @@
                                         <td class="border px-4 py-2 text-black">{{ $booking->start_date }} ->
                                             {{ $booking->end_date }}</td>
                                         <td class="border px-4 py-2 text-black">
-                                            <button class="bg-slate-500 text-white px-2 py-1 rounded"
+                                            <button class="bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded"
                                                 onclick="openModal('{{ $booking->id }}', '{{ $booking->booking_reference }}', '{{ $booking->user->first_name }}', '{{ $booking->van->model }}', '{{ $booking->start_date }}', '{{ $booking->end_date }}', '{{ ucfirst($booking->booking_status) }}', '{{ $booking->user->license_path }}')">
                                                 Review
                                             </button>

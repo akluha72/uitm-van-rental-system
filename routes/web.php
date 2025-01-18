@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\VansController;
 use App\Http\Controllers\Admin\BookingsController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\PaymentsController;
+use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
 
+Route::get('/test-email', function () {
+    Mail::raw('This is a test email from Van Rental System.', function ($message) {
+        $message->to('your_email@example.com') // Replace with your email
+                ->subject('Test Email');
+    });
 
+    return 'Test email sent!';
+});
 
 require __DIR__ . '/auth.php';
