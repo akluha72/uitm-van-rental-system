@@ -1,7 +1,7 @@
 <x-app-layout>
-    <div class="flex justify-evenly h-screen">
+    <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-72 bg-gray-500 h-screen text-white p-4">
+        <div class="w-72 bg-gray-500 text-white p-4">
             <h2 class="text-xl font-bold mb-6">Admin Panel</h2>
             <nav class="space-y-4">
                 <a href="{{ route('admin.dashboard') }}"
@@ -23,9 +23,11 @@
                     Payments</a>
             </nav>
         </div>
-        {{-- dashboard overview --}}
-        <div class="dashboard-overview relative w-full p-6 flex flex-col">
-            <div class="container mx-auto">
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Dashboard Overview -->
+            <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-white p-4 rounded shadow">
                         Active Bookings
@@ -45,7 +47,9 @@
                     </div>
                 </div>
             </div>
-            <div class="booking-pending-review relative w-full p-6">
+
+            <!-- Booking Table -->
+            <div class=" flex-1 p-4 overflow-y-auto ">
                 <div class="container mx-auto">
                     <h2 class="text-xl font-bold mb-4">Pending Review Bookings</h2>
                     <!-- Responsive Table Wrapper -->
@@ -96,7 +100,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- DataTables CDN Scripts -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
