@@ -64,7 +64,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="p-2 border text-center" colspan="8">No current bookings found.</td>
+                            <td class="p-2 border text-center" colspan="9">No current bookings found.</td>
                         </tr>
                     @endforelse
                 </tbody>

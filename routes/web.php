@@ -29,6 +29,7 @@ Route::get('/landingpage', [LandingPageController::class, 'show'])->name('landin
 Route::post('/get-van-details', [FormController::class, 'getVanDetails'])->name('getVanDetails');
 Route::post('/get-unavailable-dates', [FormController::class, 'getUnavailableDates'])->name('getUnavailableDates');
 Route::get('/get-van-price/{vanId}', [FormController::class, 'getVanPrice'])->name('van.getVanPrice');
+Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/payment-fpx', [BookingController::class, 'showPayment'])->name('payment');
 
@@ -75,7 +76,6 @@ Route::middleware(['guest'])->group(function () {
 
 
 
-Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/test-email', function () {
     Mail::raw('This is a test email from Van Rental System.', function ($message) {

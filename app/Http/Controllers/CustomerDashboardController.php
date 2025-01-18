@@ -49,7 +49,7 @@ class CustomerDashboardController extends Controller
                 return $booking->total_amount - $booking->amount_paid; // Calculate amount_due dynamically
             });
 
-        // dd($closestPaymentDue);
+        // dd($currentBookings);
         // Pass data to the view
         return view('dashboard', [
             'activeBookingsCount' => $activeBookingsCount,

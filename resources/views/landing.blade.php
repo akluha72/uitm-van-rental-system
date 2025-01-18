@@ -276,8 +276,7 @@
                                     <p class="availability-message text-red-500 text-green-500 hidden italic text-xs">
                                     </p>
                                 </div>
-
-                                <input type="hidden" id="userId" name="user_id" value="1">
+                                <input type="hidden" id="userId" name="user_id" value="{{ Auth::user()->id }}">
                                 <input type="hidden" id="vanId" name="van_id" value="">
                                 <input type="hidden" id="totalAmount" name="total_amount" value="">
 
@@ -342,19 +341,12 @@
                         <!-- Form Buttons -->
                         <div class="form-button ml-auto mt-6">
 
-                            @if (auth()->check())
-                                <!-- User is authenticated -->
+                    
                                 <button type="submit"
-                                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400" id="confirmBooking">
                                     Proceed to Deposit Payment
                                 </button>
-                            @else
-                                <!-- User is not authenticated -->
-                                <a href="{{ route('register') }}"
-                                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                    Create an Account
-                                </a>
-                            @endif
+                          
                             <button type="button" onclick="closeModal()"
                                 class="bg-red-500 text-white px-4 py-2 rounded ml-2">
                                 Cancel
