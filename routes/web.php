@@ -47,8 +47,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('vans', VansController::class);
     Route::resource('bookings', BookingsController::class)->only(['index', 'show']);
-    Route::get('bookings/{id}/approve', [BookingsController::class, 'approve'])->name('bookings.approve');
-    Route::get('bookings/{id}/reject', [BookingsController::class, 'reject'])->name('bookings.reject');
+    Route::post('/bookings/{id}/status', [BookingsController::class, 'updateStatus'])->name('admin.bookings.updateStatus');
+
     Route::resource('customers', CustomersController::class)->only(['index', 'show']);
     Route::get('payments', [PaymentsController::class, 'index'])->name('payments.index');
     Route::get('payments/export', [PaymentsController::class, 'export'])->name('payments.export');

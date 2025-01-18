@@ -39,4 +39,7 @@ long term flow
 
 //----WIP
 1. admin dasbboard
-2. seperate pending booking list and booking record
+2. seperate pending booking list and booking record (on nav page)
+3. Pending Review booking
+    - action column should have button to open popup to review the booking
+    - in the popup button to reject the booking or not

@@ -76,20 +76,11 @@
                                         <td class="border px-4 py-2 text-black">{{ $booking->start_date }} ->
                                             {{ $booking->end_date }}</td>
                                         <td class="border px-4 py-2 text-black">
-                                            @if ($booking->booking_status === 'pending confirmation')
-                                                <button class="bg-green-500 text-white px-2 py-1 rounded"
-                                                    onclick="changeStatus('{{ $booking->id }}', 'approved')">Approve</button>
-                                                <button class="bg-red-500 text-white px-2 py-1 rounded"
-                                                    onclick="changeStatus('{{ $booking->id }}', 'rejected')">Reject</button>
-                                            @elseif ($booking->booking_status === 'approved')
-                                                <button class="bg-blue-500 text-white px-2 py-1 rounded"
-                                                    onclick="changeStatus('{{ $booking->id }}', 'completed')">Mark as
-                                                    Completed</button>
-                                            @elseif ($booking->booking_status === 'rejected')
-                                                <span class="text-gray-500">No Actions Available</span>
-                                            @elseif ($booking->booking_status === 'completed')
-                                                <span class="text-gray-500">Completed</span>
-                                            @endif
+                                            <button class="bg-slate-500 text-white px-2 py-1 rounded"
+                                                onclick="openModal('{{ $booking->id }}', '{{ $booking->booking_reference }}', '{{ $booking->user->first_name }}', '{{ $booking->van->model }}', '{{ $booking->start_date }}', '{{ $booking->end_date }}', '{{ ucfirst($booking->booking_status) }}', '{{ $booking->user->license_path }}')">
+                                                Review
+                                            </button>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -101,6 +92,45 @@
         </div>
     </div>
 
+    <!-- Modal (Hidden by Default) -->
+    <div id="reviewModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden z-50">
+        <div class="bg-white w-1/2 p-6 rounded shadow-lg relative">
+            <button class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded"
+                onclick="closeModalBookingReview()">X</button>
+            <h2 class="text-xl font-bold mb-4">Review Booking</h2>
+            <div id="bookingDetails" class="text-gray-700 mb-4">
+                <!-- Booking details will be dynamically injected here -->
+            </div>
+            <div id="licensePreview" class="mb-4">
+                <h3 class="font-bold text-gray-700 mb-2">User License</h3>
+                <iframe id="licensePDF" src="" class="w-full h-80 border rounded" frameborder="0"></iframe>
+            </div>
+            <div class="mb-4">
+                <h3 class="font-bold text-gray-700 mb-2">Action</h3>
+                <div>
+                    <label class="mr-4">
+                        <input type="radio" name="action" value="approved" class="action-radio"
+                            onchange="handleActionChange()"> Approve
+                    </label>
+                    <label>
+                        <input type="radio" name="action" value="rejected" class="action-radio"
+                            onchange="handleActionChange()"> Reject
+                    </label>
+                </div>
+            </div>
+            <div id="rejectionComment" class="mb-4">
+                <h3 class="font-bold text-gray-700 mb-2">Rejection Comment </h3>
+                <textarea id="commentField" class="w-full h-24 border p-2 rounded" placeholder="Enter rejection reason" required></textarea>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded" id="submitButton"
+                    onclick="submitBookingReview()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+
+
     <!-- DataTables CDN Scripts -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -110,9 +140,93 @@
             $(document).ready(function() {
                 $('#bookingTable').DataTable({
                     pageLength: 10,
-                    // dom: 'l' // Sets the default number of rows per page to 20
                 });
             });
         });
+    </script>
+
+    <script>
+        function openModal(id, reference, customer, van, startDate, endDate, status, licensePath) {
+            const modal = document.getElementById('reviewModal');
+            const details = document.getElementById('bookingDetails');
+            const licensePDF = document.getElementById('licensePDF');
+            const rejectionComment = document.getElementById('rejectionComment');
+            const commentField = document.getElementById('commentField');
+
+            // Populate modal content
+            details.innerHTML = `
+            <p><strong>Booking Reference:</strong> ${reference}</p>
+            <p><strong>Customer:</strong> ${customer}</p>
+            <p><strong>Van:</strong> ${van}</p>
+            <p><strong>Booking Period:</strong> ${startDate} to ${endDate}</p>
+            <p><strong>Status:</strong> ${status}</p>
+        `;
+            modal.dataset.bookingId = id;
+            // Load license PDF
+            licensePDF.src = `/storage/${licensePath}`;
+
+            // Reset modal state
+            modal.classList.remove('hidden');
+            rejectionComment.classList.add('hidden');
+            commentField.value = '';
+            document.querySelectorAll('.action-radio').forEach(radio => (radio.checked = false));
+        }
+
+        function closeModalBookingReview() {
+            const modal = document.getElementById('reviewModal');
+            modal.classList.add('hidden');
+        }
+
+        function handleActionChange() {
+            const rejectionComment = document.getElementById('rejectionComment');
+            const selectedAction = document.querySelector('input[name="action"]:checked').value;
+            if (selectedAction === 'rejected') {
+                rejectionComment.classList.remove('hidden');
+            } else {
+                rejectionComment.classList.add('hidden');
+            }
+        }
+
+        function submitBookingReview() {
+            const id = document.querySelector('#reviewModal').dataset.bookingId; // Ensure ID is passed into the modal
+            const selectedAction = document.querySelector('input[name="action"]:checked');
+            const commentField = document.getElementById('commentField');
+            const comment = commentField.value.trim();
+
+            if (!selectedAction) {
+                alert('Please select an action.');
+                return;
+            }
+
+            const actionValue = selectedAction.value;
+            if (actionValue === 'rejected' && !comment) {
+                alert('Please provide a rejection reason.');
+                return;
+            }
+
+            fetch(`/admin/bookings/${id}/status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: JSON.stringify({
+                        status: actionValue,
+                        comment: comment,
+                        bookingId: id
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Booking status updated successfully!');
+                        closeModalBookingReview();
+                        location.reload();
+                    } else {
+                        alert('Failed to update booking status.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
     </script>
 </x-app-layout>

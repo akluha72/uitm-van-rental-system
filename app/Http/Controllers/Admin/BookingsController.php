@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 
+use Illuminate\Http\Request;
+
 class BookingsController extends Controller
 {
     public function index()
@@ -19,18 +21,27 @@ class BookingsController extends Controller
         return view('admin.bookings.show', compact('booking'));
     }
 
-    public function approve($id)
+    public function updateStatus(Request $request, $id)
     {
-        $booking = Booking::findOrFail($id);
-        $booking->update(['status' => 'approved']);
-        return redirect()->route('admin.bookings.index')->with('success', 'Booking approved successfully.');
-    }
+        $request->validate([
+            'status' => 'required|in:approved,rejected',
+            'comment' => 'nullable|string|max:500',
+        ]);
 
-    public function reject($id)
-    {
         $booking = Booking::findOrFail($id);
-        $booking->update(['status' => 'rejected']);
-        return redirect()->route('admin.bookings.index')->with('success', 'Booking rejected successfully.');
+        $booking->booking_status = $request->status;
+
+        // Save the rejection comment if provided
+        if ($request->status === 'rejected') {
+            $booking->review_comment = $request->comment;
+        }
+
+        $booking->save();
+
+        // Notify the user
+        // $booking->user->notify(new BookingReviewedNotification($booking));
+
+        return response()->json(['success' => true]);
     }
 
     public function getData()

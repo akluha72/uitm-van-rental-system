@@ -23,6 +23,7 @@ class Booking extends Model
         'payment_status',
         'booking_reference',
         'payment_schedule',
+        'review_comment'
     ];
     
     protected $casts = [
