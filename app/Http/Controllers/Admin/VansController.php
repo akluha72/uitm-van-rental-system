@@ -14,6 +14,11 @@ class VansController extends Controller
         return view('admin.vans.index', compact('vans'));
     }
 
+    public function show(Van $van)
+    {
+        return response()->json($van); // Return van details as JSON
+    }
+
     public function create()
     {
         return view('admin.vans.create');
@@ -21,15 +26,13 @@ class VansController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'registration_number' => 'required',
-            'capacity' => 'required|integer',
-            'price' => 'required|numeric',
-        ]);
 
-        Van::create($request->all());
-        return redirect()->route('admin.vans.index')->with('success', 'Van added successfully.');
+        try {
+            Van::create($request->all());
+            return redirect()->route('admin.vans.index')->with('success', 'Van added successfully.');
+        } catch (\Exception $e) {
+            dd("error ", $e);
+        }
     }
 
     public function edit(Van $van)
@@ -39,15 +42,14 @@ class VansController extends Controller
 
     public function update(Request $request, Van $van)
     {
-        $request->validate([
-            'name' => 'required',
-            'registration_number' => 'required',
-            'capacity' => 'required|integer',
-            'price' => 'required|numeric',
-        ]);
 
-        $van->update($request->all());
-        return redirect()->route('admin.vans.index')->with('success', 'Van updated successfully.');
+        try {
+            $van->update($request->all());
+            return redirect()->route('admin.vans.index')->with('success', 'Van updated successfully.');
+
+        } catch (\Exception $e) {
+            dd("error stored data");
+        }
     }
 
     public function destroy(Van $van)

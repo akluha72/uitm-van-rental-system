@@ -44,9 +44,6 @@ class BookingsController extends Controller
 
         Mail::to($booking->user->email)->send(new BookingReviewNotification($booking, $request->status, $request->comment));
 
-        // Notify the user
-        // $booking->user->notify(new BookingReviewedNotification($booking));
-
         return response()->json(['success' => true]);
     }
 

@@ -46,14 +46,17 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('vans', VansController::class);
     Route::resource('bookings', BookingsController::class)->only(['index', 'show']);
-    Route::post('/bookings/{id}/status', [BookingsController::class, 'updateStatus'])->name('admin.bookings.updateStatus');
+    Route::post('/bookings/{id}/status', [BookingsController::class, 'updateStatus'])->name('bookings.updateStatus');
 
     Route::resource('customers', CustomersController::class)->only(['index', 'show']);
     Route::get('payments', [PaymentsController::class, 'index'])->name('payments.index');
     Route::get('payments/export', [PaymentsController::class, 'export'])->name('payments.export');
+
+    // Add Manage Vans Route
+    Route::resource('vans', VansController::class);
 });
+
 
 Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
 
