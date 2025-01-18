@@ -49,12 +49,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('bookings', BookingsController::class)->only(['index', 'show']);
     Route::post('/bookings/{id}/status', [BookingsController::class, 'updateStatus'])->name('bookings.updateStatus');
 
-    Route::resource('customers', CustomersController::class)->only(['index', 'show']);
+   
     Route::get('payments', [PaymentsController::class, 'index'])->name('payments.index');
     Route::get('payments/export', [PaymentsController::class, 'export'])->name('payments.export');
 
     // Add Manage Vans Route
     Route::resource('vans', VansController::class);
+
+    //add manage customer route
+    Route::resource('customers', CustomersController::class);
 });
 
 

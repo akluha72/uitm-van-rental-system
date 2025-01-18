@@ -43,3 +43,8 @@ long term flow
 3. Pending Review booking
     - action column should have button to open popup to review the booking
     - in the popup button to reject the booking or not
+
+//----WIP   
+1. ADMIN dashboard  
+A. add the other list of view for active booking, past booking
+B. for completed booking payback their deposit amount

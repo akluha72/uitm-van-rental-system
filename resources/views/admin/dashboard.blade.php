@@ -9,9 +9,6 @@
                 <a href="{{ route('admin.vans.index') }}"
                     class="{{ request()->routeIs('admin.vans.index') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-600">Manage
                     Vans</a>
-                <a href="{{ route('admin.bookings.index') }}"
-                    class="{{ request()->routeIs('admin.bookings.index') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-600">Manage
-                    Bookings</a>
                 <a href="{{ route('admin.customers.index') }}"
                     class="{{ request()->routeIs('admin.customers.index') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-600">Manage
                     Customers</a>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Booking; 
+use App\Models\Van; 
 
 class DashboardController extends Controller
 {
@@ -12,8 +13,8 @@ class DashboardController extends Controller
     {
         $data = [
             'activeBookings' => Booking::where('booking_status', 'active')->count(),
-            'availableVans' => 10, // Example static data
-            'monthlyRevenue' => 5000, // Example static data
+            'availableVans' => Van::where('availability', 1)->count(),
+            'monthlyRevenue' => 'hard code', // Example static data
             'pendingBookings' => Booking::where('booking_status', 'pending confirmation')->count(),
         ];
 
