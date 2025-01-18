@@ -3,10 +3,10 @@
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="w-72 bg-gray-500 text-white p-4">
-            <h2 class="text-xl font-bold mb-6">Admin Panel</h2>
+            <h2 class="text-xl font-bold mb-6  ">Van Sewa Melaka</h2>
             <nav class="space-y-4">
                 <a href="{{ route('admin.dashboard') }}"
-                    class="{{ request()->routeIs('admin.dashboard') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-blue-600">Dashboard</a>
+                    class="{{ request()->routeIs('admin.dashboard') ? 'bg-gray-700' : '' }} block  px-4 py-2 rounded hover:bg-gray-700">Dashboard</a>
                 <a href="{{ route('admin.vans.index') }}"
                     class="{{ request()->routeIs('admin.vans.index') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-600">Manage
                     Vans</a>
@@ -15,9 +15,6 @@
                     Customers</a>
                 <a href="{{ route('admin.payments.index') }}"
                     class="{{ request()->routeIs('admin.payments.index') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-600">Manage
-                    Payments</a>
-                <a href="{{ route('admin.payments.export') }}"
-                    class="{{ request()->routeIs('admin.payments.export') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-600">Export
                     Payments</a>
             </nav>
         </div>

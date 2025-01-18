@@ -30,7 +30,7 @@ Route::post('/get-van-details', [FormController::class, 'getVanDetails'])->name(
 Route::post('/get-unavailable-dates', [FormController::class, 'getUnavailableDates'])->name('getUnavailableDates');
 Route::get('/get-van-price/{vanId}', [FormController::class, 'getVanPrice'])->name('van.getVanPrice');
 
-Route::get('/payment', [BookingController::class, 'showPayment'])->name('payment');
+// Route::get('/payment', [BookingController::class, 'showPayment'])->name('payment');
 
 Route::middleware('auth')->group(function () {
     Route::get('/booking/{van}', [BookingController::class, 'show'])->name('booking');
@@ -49,15 +49,23 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('bookings', BookingsController::class)->only(['index', 'show']);
     Route::post('/bookings/{id}/status', [BookingsController::class, 'updateStatus'])->name('bookings.updateStatus');
 
-   
-    Route::get('payments', [PaymentsController::class, 'index'])->name('payments.index');
-    Route::get('payments/export', [PaymentsController::class, 'export'])->name('payments.export');
-
     // Add Manage Vans Route
     Route::resource('vans', VansController::class);
 
     //add manage customer route
     Route::resource('customers', CustomersController::class);
+
+    //add manage payment
+    Route::get('payments', [PaymentsController::class, 'index'])->name('payments.index');
+    Route::get('payments/export-report', [PaymentsController::class, 'export'])->name('payments.export');
+    Route::get('payments/{id}', [PaymentsController::class, 'show'])->name('payments.show');
+    Route::post('payments/{id}/update', [PaymentsController::class, 'updateStatus'])->name('payments.updateStatus');
+   
+
+    Route::get('payments/test', function () {
+        return 'Route works!';
+    });
+    
 });
 
 
