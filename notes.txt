@@ -47,4 +47,8 @@ long term flow
 //----WIP   
 1. ADMIN dashboard  
 A. add the other list of view for active booking, past booking
-B. for completed booking payback their deposit amount
+B. For completed booking payback their deposit amount
+C. User payment mechanism
+D. Seperate access user and admin. 
+E. if the user doesn't sign in yet. then create an account first before make a booking
+E. Live

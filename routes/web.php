@@ -30,7 +30,7 @@ Route::post('/get-van-details', [FormController::class, 'getVanDetails'])->name(
 Route::post('/get-unavailable-dates', [FormController::class, 'getUnavailableDates'])->name('getUnavailableDates');
 Route::get('/get-van-price/{vanId}', [FormController::class, 'getVanPrice'])->name('van.getVanPrice');
 
-// Route::get('/payment', [BookingController::class, 'showPayment'])->name('payment');
+Route::get('/payment-fpx', [BookingController::class, 'showPayment'])->name('payment');
 
 Route::middleware('auth')->group(function () {
     Route::get('/booking/{van}', [BookingController::class, 'show'])->name('booking');
@@ -67,6 +67,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
     
 });
+
+Route::middleware(['guest'])->group(function () {
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register'])->middleware('guest');
+});
+
 
 
 Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');

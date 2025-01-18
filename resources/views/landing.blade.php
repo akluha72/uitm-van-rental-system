@@ -246,7 +246,7 @@
                             </div>
                         </div>
 
-                        <div class="form-input-section flex flex-col lg:flex-row bg-blue-200 p-2 justify-around">
+                        <div class="form-input-section flex flex-col lg:flex-row p-2 justify-around">
                             <!-- Form Content -->
                             <div class="form-calendar-container flex flex-col gap-4 mb-4  grow">
                                 <div class="unavailable-dates-container">
@@ -259,20 +259,24 @@
                                 <div class="date-input-and-availability-message">
                                     <div class="flex flex-row items-center gap-4">
                                         <div class="calendar-container">
-                                            <label for="startDate" class="block text-sm font-medium text-gray-700">Start
+                                            <label for="startDate"
+                                                class="block text-sm font-medium text-gray-700">Start
                                                 Date</label>
                                             <input type="date" id="startDate" name="start_date"
                                                 class="w-full border-gray-300 rounded p-2" required>
                                         </div>
                                         <div class="calendar-container">
-                                            <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
-                                            <input type="date" id="endDate" name="end_date" class="w-full border-gray-300 rounded p-2" required>
+                                            <label for="endDate" class="block text-sm font-medium text-gray-700">End
+                                                Date</label>
+                                            <input type="date" id="endDate" name="end_date"
+                                                class="w-full border-gray-300 rounded p-2" required>
                                         </div>
                                     </div>
                                     <p class="availability-message text-red-500 italic text-xs"></p>
-                                    <p class="availability-message text-red-500 text-green-500 hidden italic text-xs"> </p>
+                                    <p class="availability-message text-red-500 text-green-500 hidden italic text-xs">
+                                    </p>
                                 </div>
-                               
+
                                 <input type="hidden" id="userId" name="user_id" value="1">
                                 <input type="hidden" id="vanId" name="van_id" value="">
                                 <input type="hidden" id="totalAmount" name="total_amount" value="">
@@ -338,10 +342,19 @@
                         <!-- Form Buttons -->
                         <div class="form-button ml-auto mt-6">
 
-                            <a type="button" id="confirmBooking"
-                                class="px-4 py-2 rounded text-white bg-slate-500 cursor-not-allowed" disabled>
-                                Deposit Payment
-                            </a>
+                            @if (auth()->check())
+                                <!-- User is authenticated -->
+                                <button type="submit"
+                                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                                    Proceed to Deposit Payment
+                                </button>
+                            @else
+                                <!-- User is not authenticated -->
+                                <a href="{{ route('register') }}"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                                    Create an Account
+                                </a>
+                            @endif
                             <button type="button" onclick="closeModal()"
                                 class="bg-red-500 text-white px-4 py-2 rounded ml-2">
                                 Cancel

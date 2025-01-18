@@ -40,7 +40,13 @@
 
 <body class="bg-[#f8f9ff] font-sans antialiased max-w-[1920px] mx-auto">
     <div class=" bg-[#f8f9ff] text-[18px]">
-        @include('layouts.navigation')
+        {{-- @include('layouts.navigation') --}}
+
+        @auth
+            @include('layouts.navigation')
+        @else
+            {{-- <p>Please <a href="{{ route('login') }}">login</a> to access the navigation.</p> --}}
+        @endauth
 
         <!-- Page Heading -->
         @if (isset($header))
