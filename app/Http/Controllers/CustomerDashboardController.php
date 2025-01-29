@@ -31,7 +31,7 @@ class CustomerDashboardController extends Controller
         // Current bookings
         $currentBookings = Booking::with('van')
             ->where('user_id', $userId)
-            ->whereIn('booking_status', ['pending confirmation', 'confirmed', 'active'])
+            ->whereIn('booking_status', ['pending confirmation', 'confirmed', 'active', 'approved'])
             ->orderBy('start_date', 'asc')
             ->paginate(10);
 

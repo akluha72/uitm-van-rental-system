@@ -343,7 +343,7 @@
 
                     
                                 <button type="submit"
-                                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400" id="confirmBooking">
+                                    class="bg-green-500 text-white px-4 py-2 rounded  focus:outline-none focus:ring-2 focus:ring-green-400" id="confirmBooking">
                                     Proceed to Deposit Payment
                                 </button>
                           

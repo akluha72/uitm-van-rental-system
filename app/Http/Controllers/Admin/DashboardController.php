@@ -14,7 +14,7 @@ class DashboardController extends Controller
         $data = [
             'activeBookings' => Booking::where('booking_status', 'active')->count(),
             'availableVans' => Van::where('availability', 1)->count(),
-            'monthlyRevenue' => 'hard code', // Example static data
+            'monthlyRevenue' => 5000.00, // Example static data
             'pendingBookings' => Booking::where('booking_status', 'pending confirmation')->count(),
         ];
 

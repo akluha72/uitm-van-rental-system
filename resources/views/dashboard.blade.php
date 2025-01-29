@@ -43,6 +43,7 @@
                         <th class="p-2 border">Amount Due</th>
                         <th class="p-2 border">Total Amount</th>
                         <th class="p-2 border">Booking Date</th>
+                        <th class="p-2 border">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,6 +62,10 @@
                             <td class="p-2 border">RM {{ number_format($booking->amount_due, 2) }}</td>
                             <td class="p-2 border">RM {{ number_format($booking->total_amount, 2) }}</td>
                             <td class="p-2 border">{{ $booking->created_at }}</td>
+                            <td class="p-2 border">      <button type="submit"
+                                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400" id="confirmBooking">
+                                make a payment
+                            </button></td>
                         </tr>
                     @empty
                         <tr>
