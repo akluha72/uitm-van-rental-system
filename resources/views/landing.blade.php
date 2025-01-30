@@ -9,7 +9,7 @@
                     today!</p>
                 <div class="mt-10">
                     <button class='px-6 py-3 rounded-xl text-white bg-cyan-900 transition-all hover:bg-cyan-800'>
-                        Book Your Van Now
+                        Book Your Van Nowss
                     </button>
                 </div>
             </div>
