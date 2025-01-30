@@ -25,7 +25,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/landingpage', [LandingPageController::class, 'show'])->name('landing');
+Route::get('/', [LandingPageController::class, 'show'])->name('landing');
+
+// Route::get('/landingpage', [LandingPageController::class, 'show'])->name('landing');
 Route::post('/get-van-details', [FormController::class, 'getVanDetails'])->name('getVanDetails');
 Route::post('/get-unavailable-dates', [FormController::class, 'getUnavailableDates'])->name('getUnavailableDates');
 Route::get('/get-van-price/{vanId}', [FormController::class, 'getVanPrice'])->name('van.getVanPrice');
