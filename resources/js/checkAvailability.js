@@ -1,3 +1,36 @@
+import Lightpick from 'lightpick';
+let pickerInstance = null; // Store picker instance
+
+export function lightPickerInit() {
+    alert("triggering");
+    if (pickerInstance) {
+        console.log("Lightpick already initialized.");
+        return;
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const modalContainer = document.querySelector(".date-input-and-availability-message");
+
+        if (modalContainer) {
+            alert("triggred");
+        } else {
+            alert("can't be found");
+        }
+        const picker = new Lightpick({
+            field: document.getElementById('startDate'),
+            secondField: document.getElementById('endDate'),
+            singleDate: false, // Change to true for a single date picker
+            format: 'YYYY-MM-DD', // Set date format
+            numberOfMonths: 2,
+            parentEl: modalContainer, // Ensure Lightpick is inside the modal
+            onSelect: function (start, end) {
+                console.log('Selected Start Date:', start ? start.format('YYYY-MM-DD') : '');
+                console.log('Selected End Date:', end ? end.format('YYYY-MM-DD') : '');
+            }
+        });
+    });
+}
+
+
 export function dateValidator() {
     document.addEventListener("DOMContentLoaded", function () {
         const costBreakdownElement = document.querySelector(".cost-breakdown"); // The container for cost breakdown
@@ -19,7 +52,7 @@ export function dateValidator() {
                     confirmBookingButton.disabled = true;
                     costBreakdownElement.innerHTML = `<p class="text-red-500">The van is not available for the selected dates.</p>`;
                 } else {
-        
+
                     // Calculate total cost
                     const totalCost = await calculateCost(vanId, startDate, endDate);
                     updateCostBreakdown(totalCost);
