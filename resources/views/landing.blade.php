@@ -281,6 +281,13 @@
                                 @auth
                                     <input type="hidden" id="userId" name="user_id" value="{{ Auth::user()->id }}">
                                 @endauth
+                                @if (Auth::check())
+                                    <input type="hidden" id="userId" name="user_id"
+                                        value="{{ Auth::user()->id }}">
+                                @endif
+
+
+                                <input type="hidden" id="userId" name="user_id" value="1">
 
                                 <input type="hidden" id="vanId" name="van_id" value="">
                                 <input type="hidden" id="totalAmount" name="total_amount" value="">

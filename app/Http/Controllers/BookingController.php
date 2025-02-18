@@ -19,27 +19,53 @@ class BookingController extends Controller
 
     public function checkAvailability(Request $request)
     {
-        $vanId = $request->input('van_id');
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
+        try {
+  
+            $vanId = $request['van_id'];
+            $startDate = $request['start_date'];
+            $endDate = $request['end_date'];
+    
+            // Check overlapping bookings
+            $overlappingBookings = Booking::where('van_id', $vanId)
+                ->where(function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('start_date', [$startDate, $endDate])
+                        ->orWhereBetween('end_date', [$startDate, $endDate])
+                        ->orWhere(function ($query) use ($startDate, $endDate) {
+                            $query->where('start_date', '<=', $startDate)
+                                ->where('end_date', '>=', $endDate);
+                        });
+                })
+                ->exists();
 
-        $overlappingBookings = Booking::where('van_id', $vanId)
-            ->where(function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('start_date', [$startDate, $endDate])
-                    ->orWhereBetween('end_date', [$startDate, $endDate])
-                    ->orWhere(function ($query) use ($startDate, $endDate) {
-                        $query->where('start_date', '<=', $startDate)
-                            ->where('end_date', '>=', $endDate);
-                    });
-            })
-            ->exists();
+            if ($overlappingBookings) {
+                return response()->json([
+                    'success' => false,
+                    'available' => false,
+                    'message' => 'The selected dates are not available for this van.',
+                ], 200);
+            }
 
-        if ($overlappingBookings) {
-            return response()->json(['available' => false, 'message' => 'Selected dates are not available.']);
+            return response()->json([
+                'success' => true,
+                'available' => true,
+                'message' => 'The selected dates are available.',
+            ], 200);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while checking availability.',
+                'error_details' => $e->getMessage(),
+            ], 500);
         }
-
-        return response()->json(['available' => true, 'message' => 'Dates are available.']);
     }
+
 
     public function submitBooking(Request $request)
     {

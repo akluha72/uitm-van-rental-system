@@ -19,8 +19,7 @@ export function dateValidator() {
                     confirmBookingButton.disabled = true;
                     costBreakdownElement.innerHTML = `<p class="text-red-500">The van is not available for the selected dates.</p>`;
                 } else {
-                    // confirmBookingButton.disabled = false;
-
+        
                     // Calculate total cost
                     const totalCost = await calculateCost(vanId, startDate, endDate);
                     updateCostBreakdown(totalCost);
