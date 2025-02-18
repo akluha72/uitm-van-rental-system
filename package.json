@@ -16,7 +16,11 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "datatables.net": "^2.2.2",
+        "datatables.net-dt": "^2.2.2",
         "flatpickr": "^4.6.13",
+        "jquery": "^3.7.1",
+        "lightpick": "^1.6.2",
         "simple-jscalendar": "^1.4.5"
     }
 }

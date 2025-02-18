@@ -257,26 +257,25 @@
                                 </div>
 
                                 <div class="date-input-and-availability-message">
-                                    <div class="flex flex-row items-center gap-4">
-                                        <div class="calendar-container">
-                                            <label for="startDate"
-                                                class="block text-sm font-medium text-gray-700">Start
-                                                Date</label>
-                                            <input type="date" id="startDate" name="start_date"
+                                    <div class=" flex flex-row items-center gap-4">
+                                        <!-- Start Date -->
+                                        <div class="calendar-container flex flex-col">
+                                            <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                                            <input type="text" id="startDate" name="start_date"
                                                 class="w-full border-gray-300 rounded p-2" required>
                                         </div>
-                                        <div class="calendar-container">
-                                            <label for="endDate" class="block text-sm font-medium text-gray-700">End
-                                                Date</label>
-                                            <input type="date" id="endDate" name="end_date"
+                                        <!-- End Date -->
+                                        <div class="calendar-container flex flex-col">
+                                            <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                                            <input type="text" id="endDate" name="end_date"
                                                 class="w-full border-gray-300 rounded p-2" required>
                                         </div>
                                     </div>
-                                    <p class="availability-message text-red-500 italic text-xs"></p>
-                                    <p class="availability-message text-red-500 text-green-500 hidden italic text-xs">
-                                    </p>
                                 </div>
+                                
+
                                 {{-- <input type="hidden" id="userId" name="user_id" value="{{ Auth::user()->id }}"> --}}
+
 
                                 @auth
                                     <input type="hidden" id="userId" name="user_id" value="{{ Auth::user()->id }}">
