@@ -372,8 +372,8 @@
 </x-app-layout>
 
 <script type="module">
-    dateValidator();
-    pdfPreview();
+    // dateValidator();
+    // pdfPreview();
 </script>
 
 <script>

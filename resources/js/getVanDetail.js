@@ -2,6 +2,8 @@ const csrfToken = document.head.querySelector(
     'meta[name="csrf-token"]'
 ).content;
 
+let unavailableDates = []; // Global array to store unavailable dates
+
 export function getVanDetails(vanId) {
     fetch("/get-van-details", {
         method: "POST",
@@ -15,10 +17,9 @@ export function getVanDetails(vanId) {
     })
         .then((response) => response.json())
         .then((data) => {
-            // Handle the response data (true or false)
             populateModal(data);
-            getUnavailableDate(vanId);
-            openBookingModal(); // Show the modal
+            getUnavailableDate(vanId); // Fetch unavailable dates and update the calendar
+            openBookingModal();
         })
         .catch((error) => {
             console.log("Error:", error);
@@ -34,7 +35,6 @@ export function closeModal() {
     document.getElementById('bookingModal').classList.add('hidden');
 }
 
-// Function to populate the modal with data
 function populateModal(data) {
     console.log(data.id);
     document.getElementById('modalTitle').innerText = `Book ${data.model}`;
@@ -45,7 +45,7 @@ function populateModal(data) {
     document.getElementById('vanId').value = `${data.id}`;
 }
 
-//to list out all the unavailable date intially. easier for the user to find a date. 
+// Fetch unavailable dates and store them globally
 function getUnavailableDate(vanId) {
     fetch("/get-unavailable-dates", {
         method: "POST",
@@ -59,50 +59,72 @@ function getUnavailableDate(vanId) {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
-            // Handle the response data (true or false)
-            populateUnavailableDate(data);
+            console.log("Unavailable Dates:", data);
+            unavailableDates = data; // Store unavailable dates globally
+            populateUnavailableDate(data); // Populate the unavailable dates list
+            initializeLightpick(); // Re-initialize Lightpick with unavailable dates
         })
         .catch((error) => {
-            console.log("Error:", error);
+            console.log("Error fetching unavailable dates:", error);
         });
 }
 
+import Lightpick from 'lightpick';
+
+function initializeLightpick() {
+    const modalContainer = document.querySelector(".date-input-and-availability-message");
+
+    if (!modalContainer) return;
+
+    const picker = new Lightpick({
+        field: document.getElementById('startDate'),
+        secondField: document.getElementById('endDate'),
+        singleDate: false,
+        format: 'YYYY-MM-DD',
+        numberOfMonths: 2,
+        parentEl: modalContainer,
+        disableDates: unavailableDates, // Disable unavailable dates dynamically
+        onSelect: function (start, end) {
+            if (start && end) {
+                dateValidator(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+            }
+        }
+    });
+}
+
+function setupDateChangeListeners() {
+    const startDateInput = document.querySelector("#startDate");
+    const endDateInput = document.querySelector("#endDate");
+
+    if (startDateInput && endDateInput) {
+        startDateInput.addEventListener("change", () => dateValidator(startDateInput.value, endDateInput.value));
+        endDateInput.addEventListener("change", () => dateValidator(startDateInput.value, endDateInput.value));
+    }
+}
+
 function populateUnavailableDate(dates) {
-    // Get the container where the unavailable dates will be appended
     const container = document.querySelector(".unavailable-dates-list");
+    container.innerHTML = ""; // Clear existing entries
 
-    // Clear any existing content (optional, to avoid duplicate entries)
-    container.innerHTML = "";
-
-    // Loop through each booking and create HTML elements for start and end dates
     dates.forEach((booking) => {
-        // Create the list container
         const listDiv = document.createElement("div");
         listDiv.classList.add("list", "flex", "flex-row");
 
-        // Create the start date element
         const startDateP = document.createElement("p");
-        startDateP.classList.add("start-date" , "text-sm");
+        startDateP.classList.add("start-date", "text-sm");
         startDateP.textContent = booking.start_date;
 
-        // Create the separator
         const separator = document.createElement("p");
         separator.textContent = "->";
         separator.classList.add("mx-4");
 
-
-        // Create the end date element
         const endDateP = document.createElement("p");
-        endDateP.classList.add("end-date" , "text-sm");
+        endDateP.classList.add("end-date", "text-sm");
         endDateP.textContent = booking.end_date;
 
-        // Append the start date, separator, and end date to the list container
         listDiv.appendChild(startDateP);
         listDiv.appendChild(separator);
         listDiv.appendChild(endDateP);
-
-        // Append the list container to the main container
         container.appendChild(listDiv);
     });
 }

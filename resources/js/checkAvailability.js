@@ -1,52 +1,30 @@
-import Lightpick from 'lightpick';
-document.addEventListener("DOMContentLoaded", function () {
-    const modalContainer = document.querySelector(".date-input-and-availability-message");
 
-    const picker = new Lightpick({
-        field: document.getElementById('startDate'),
-        secondField: document.getElementById('endDate'),
-        singleDate: false,
-        format: 'YYYY-MM-DD',
-        numberOfMonths: 2,
-        parentEl: modalContainer, // Ensure Lightpick is inside the modal
-        onSelect: function (start, end) {
-            dateValidator(start,end);
-        }
-    });
-});
 
-export function dateValidator(startDate, endDate) {
-    document.addEventListener("DOMContentLoaded", function () {
-        const costBreakdownElement = document.querySelector(".cost-breakdown");
-        const confirmBookingButton = document.querySelector("#confirmBookingButton");
+export async function dateValidator(startDate, endDate) {
+    const costBreakdownElement = document.querySelector(".cost-breakdown");
+    const confirmBookingButton = document.querySelector("#confirmBookingButton");
+    const vanId = document.querySelector("#vanId")?.value;
 
-        document.querySelector("#startDate").addEventListener("change", handleDateChange);
-        document.querySelector("#endDate").addEventListener("change", handleDateChange);
+    if (!vanId || !startDate || !endDate) {
+        console.error("Missing required parameters.");
+        return;
+    }
 
-        async function handleDateChange() {
-            // const startDate = document.querySelector("#startDate").value;
-            // const endDate = document.querySelector("#endDate").value;
-            // const vanId = document.querySelector("#vanId").value;
+    console.log("Validating dates:", startDate, endDate);
 
-            console.log(startDate);
-            console.log(endDate);
+    // Check availability
+    const available = await checkDateAvailability(vanId, startDate, endDate);
 
-            if (startDate && endDate) {
-                // Check availability
-                const available = await checkDateAvailability(vanId, startDate, endDate);
-
-                if (!available) {
-                    confirmBookingButton.disabled = true;
-                    costBreakdownElement.innerHTML = `<p class="text-red-500">The van is not available for the selected dates.</p>`;
-                } else {
-
-                    // Calculate total cost
-                    const totalCost = await calculateCost(vanId, startDate, endDate);
-                    updateCostBreakdown(totalCost);
-                }
-            }
-        }
-    });
+    if (!available) {
+        confirmBookingButton.disabled = true;
+        costBreakdownElement.innerHTML = `<p class="text-red-500">The van is not available for the selected dates.</p>`;
+    } else {
+        confirmBookingButton.disabled = false;
+        // Calculate total cost
+        const totalCost = await calculateCost(vanId, startDate, endDate);
+        console.log(totalCost);
+        updateCostBreakdown(totalCost);
+    }
 }
 
 export async function checkDateAvailability(vanId, startDate, endDate) {
@@ -100,13 +78,7 @@ export async function fetchVanPrice(vanId) {
         });
 
         const data = await response.json();
-
-        if (data.success) {
-            return data.price; // Assuming the backend returns the price in `data.price`
-        } else {
-            console.error("Failed to fetch price:", data.message);
-            return 0;
-        }
+        return data.success ? data.price : 0;
     } catch (error) {
         console.error("Error fetching price:", error);
         return 0;
@@ -116,14 +88,12 @@ export async function fetchVanPrice(vanId) {
 export async function calculateCost(vanId, startDate, endDate) {
     try {
         const pricePerDay = await fetchVanPrice(vanId);
-
-        // Calculate number of days between start and end dates
         const start = new Date(startDate);
         const end = new Date(endDate);
-        const diffTime = Math.abs(end - start);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert to days
 
-        // Calculate total cost
+        let diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        diffDays = Math.max(diffDays, 1);
+
         return diffDays * pricePerDay;
     } catch (error) {
         console.error("Error calculating cost:", error);
@@ -132,28 +102,12 @@ export async function calculateCost(vanId, startDate, endDate) {
 }
 
 function updateCostBreakdown(totalCost) {
-    // Calculate 10% deposit
     const deposit = totalCost * 0.1;
 
-    // Update the Base Rental Fee
-    const baseRentalFeeElement = document.querySelector("#baseRentalFee");
-    if (baseRentalFeeElement) {
-        baseRentalFeeElement.textContent = `RM ${totalCost.toFixed(2)}`;
-    }
-
-    // Update the Deposit
-    const depositElement = document.querySelector("#deposit");
-    if (depositElement) {
-        depositElement.textContent = `RM ${deposit.toFixed(2)}`;
-    }
-
-    // Update the Total
-    const totalElement = document.querySelector("#total");
-    if (totalElement) {
-        totalElement.textContent = `RM ${(totalCost + deposit).toFixed(2)}`;
-    }
+    document.querySelector("#baseRentalFee").textContent = `RM ${totalCost.toFixed(2)}`;
+    document.querySelector("#deposit").textContent = `RM ${deposit.toFixed(2)}`;
+    document.querySelector("#total").textContent = `RM ${(totalCost + deposit).toFixed(2)}`;
 
     const totalAmount = document.getElementById('totalAmount');
-    totalAmount.value = (totalCost + deposit).toFixed(2);
+    if (totalAmount) totalAmount.value = (totalCost + deposit).toFixed(2);
 }
-
