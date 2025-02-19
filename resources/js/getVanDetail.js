@@ -1,9 +1,9 @@
-const csrfToken = document.head.querySelector(
-    'meta[name="csrf-token"]'
-).content;
+import Lightpick from 'lightpick';
 
-let unavailableDates = []; // Global array to store unavailable dates
+const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+let unavailableDates = [];
 
+// Function to fetch van details and open booking modal
 export function getVanDetails(vanId) {
     fetch("/get-van-details", {
         method: "POST",
@@ -11,41 +11,39 @@ export function getVanDetails(vanId) {
             "Content-Type": "application/json",
             "X-CSRF-TOKEN": csrfToken,
         },
-        body: JSON.stringify({
-            vanId: vanId,
-        }),
+        body: JSON.stringify({ vanId: vanId }),
     })
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
             populateModal(data);
-            getUnavailableDate(vanId); // Fetch unavailable dates and update the calendar
+            getUnavailableDate(vanId); // Fetch unavailable dates
             openBookingModal();
         })
-        .catch((error) => {
-            console.log("Error:", error);
-        });
+        .catch(error => console.log("Error:", error));
 }
 
+// Function to open modal
 function openBookingModal() {
     document.getElementById('bookingModal').classList.remove('hidden');
 }
 
+// Function to close modal
 export function closeModal() {
     console.log("closeModal Triggered");
     document.getElementById('bookingModal').classList.add('hidden');
 }
 
+// Function to populate modal with van details
 function populateModal(data) {
-    console.log(data.id);
     document.getElementById('modalTitle').innerText = `Book ${data.model}`;
     document.getElementById('modalModel').innerText = `Model: ${data.model}`;
     document.getElementById('modalCapacity').innerText = `Capacity: ${data.capacity} passengers`;
     document.getElementById('modalRate').innerText = `Rental Rate: RM${data.rental_rate} per day`;
     document.getElementById('modalLicense').innerText = `License Plate: ${data.license_plate}`;
-    document.getElementById('vanId').value = `${data.id}`;
+    document.getElementById('vanId').value = data.id;
 }
 
-// Fetch unavailable dates and store them globally
+// Function to fetch unavailable dates and update the calendar
 function getUnavailableDate(vanId) {
     fetch("/get-unavailable-dates", {
         method: "POST",
@@ -53,25 +51,42 @@ function getUnavailableDate(vanId) {
             "Content-Type": "application/json",
             "X-CSRF-TOKEN": csrfToken,
         },
-        body: JSON.stringify({
-            vanId: vanId,
-        }),
+        body: JSON.stringify({ vanId: vanId }),
     })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Unavailable Dates:", data);
-            unavailableDates = data; // Store unavailable dates globally
-            populateUnavailableDate(data); // Populate the unavailable dates list
-            initializeLightpick(); // Re-initialize Lightpick with unavailable dates
+        .then(response => response.json())
+        .then(data => {
+            console.log("Raw Unavailable Dates:", data);
+            unavailableDates = convertDateRangesToArray(data);
+            console.log("Processed Unavailable Dates:", unavailableDates);
+            initializeLightpick(vanId);
         })
-        .catch((error) => {
-            console.log("Error fetching unavailable dates:", error);
-        });
+        .catch(error => console.log("Error fetching unavailable dates:", error));
 }
 
-import Lightpick from 'lightpick';
+// Convert unavailable date ranges to individual dates
+function convertDateRangesToArray(dateRanges) {
+    let disabledDates = [];
 
-function initializeLightpick() {
+    dateRanges.forEach(({ start_date, end_date }) => {
+        let currentDate = new Date(start_date);
+        let lastDate = new Date(end_date);
+
+        while (currentDate <= lastDate) {
+            disabledDates.push(formatDate(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+    });
+
+    return disabledDates;
+}
+
+// Format date as YYYY-MM-DD
+function formatDate(date) {
+    return date.toISOString().split('T')[0];
+}
+
+// Initialize Lightpick with disabled dates
+function initializeLightpick(vanId) {
     const modalContainer = document.querySelector(".date-input-and-availability-message");
 
     if (!modalContainer) return;
@@ -83,48 +98,96 @@ function initializeLightpick() {
         format: 'YYYY-MM-DD',
         numberOfMonths: 2,
         parentEl: modalContainer,
-        disableDates: unavailableDates, // Disable unavailable dates dynamically
-        onSelect: function (start, end) {
+        disableDates: unavailableDates, // Now contains individual dates
+        onSelect: async function (start, end) {
             if (start && end) {
-                dateValidator(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                console.log("vanID" + vanId);
+                // dateValidator(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                const startDate = start ? start.format('YYYY-MM-DD') : null;
+                const endDate = end ? end.format('YYYY-MM-DD') : null;
+                const totalCost = await calculateCost(vanId, startDate, endDate);
+                updateCostBreakdown(totalCost);
             }
         }
     });
 }
 
-function setupDateChangeListeners() {
-    const startDateInput = document.querySelector("#startDate");
-    const endDateInput = document.querySelector("#endDate");
+// Update cost breakdown in the UI
+function updateCostBreakdown(totalCost) {
+    if (isNaN(totalCost) || totalCost === undefined) {
+        console.error("Invalid totalCost:", totalCost);
+        totalCost = 0; // Default to 0 if invalid
+    }
 
-    if (startDateInput && endDateInput) {
-        startDateInput.addEventListener("change", () => dateValidator(startDateInput.value, endDateInput.value));
-        endDateInput.addEventListener("change", () => dateValidator(startDateInput.value, endDateInput.value));
+    const deposit = totalCost * 0.1;
+
+    document.querySelector("#baseRentalFee").textContent = `RM ${totalCost.toFixed(2)}`;
+    document.querySelector("#deposit").textContent = `RM ${deposit.toFixed(2)}`;
+    document.querySelector("#total").textContent = `RM ${(totalCost + deposit).toFixed(2)}`;
+
+    const totalAmount = document.getElementById('totalAmount');
+    if (totalAmount) totalAmount.value = (totalCost + deposit).toFixed(2);
+}
+
+
+// Calculate rental cost
+async function calculateCost(vanId, startDate, endDate) {
+    console.log("vanID in calculateCost:", vanId);
+    
+    try {
+        const pricePerDay = await fetchVanPrice(vanId);
+        console.log("Price per day:", pricePerDay, typeof pricePerDay);
+
+        if (isNaN(pricePerDay) || pricePerDay === undefined) {
+            throw new Error("Invalid price per day received");
+        }
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        console.log("Start Date:", start, "End Date:", end);
+
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+            throw new Error("Invalid date format provided");
+        }
+
+        let diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        diffDays = Math.max(diffDays, 1);
+
+        console.log("Days Difference:", diffDays, typeof diffDays);
+
+        const totalCost = diffDays * pricePerDay;
+        console.log("Total Cost:", totalCost, typeof totalCost);
+
+        return totalCost;
+    } catch (error) {
+        console.error("Error calculating cost:", error);
+        return 0;
     }
 }
 
-function populateUnavailableDate(dates) {
-    const container = document.querySelector(".unavailable-dates-list");
-    container.innerHTML = ""; // Clear existing entries
 
-    dates.forEach((booking) => {
-        const listDiv = document.createElement("div");
-        listDiv.classList.add("list", "flex", "flex-row");
+// Fetch van rental price
+async function fetchVanPrice(vanId) {
+    console.log("Fetching price for vanId:", vanId);
+    
+    try {
+        const response = await fetch(`/get-van-price/${vanId}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
 
-        const startDateP = document.createElement("p");
-        startDateP.classList.add("start-date", "text-sm");
-        startDateP.textContent = booking.start_date;
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-        const separator = document.createElement("p");
-        separator.textContent = "->";
-        separator.classList.add("mx-4");
+        const data = await response.json();
+        console.log("Fetched van price:", data.price);
 
-        const endDateP = document.createElement("p");
-        endDateP.classList.add("end-date", "text-sm");
-        endDateP.textContent = booking.end_date;
-
-        listDiv.appendChild(startDateP);
-        listDiv.appendChild(separator);
-        listDiv.appendChild(endDateP);
-        container.appendChild(listDiv);
-    });
+        return parseFloat(data.price); // ✅ Ensure it's a number
+    } catch (error) {
+        console.error("Error fetching price:", error);
+        return 0; 
+    }
 }
+

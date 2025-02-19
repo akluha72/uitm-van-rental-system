@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LandingPageController::class, 'show'])->name('landing');
 
 Route::post('/check-availability', [BookingController::class, 'checkAvailability'])->name('checkAvailability');
+Route::post('/submit-booking', [BookingController::class, 'submitBooking'])->name('submitBooking');
 
 // Route::get('/landingpage', [LandingPageController::class, 'show'])->name('landing');
 Route::post('/get-van-details', [FormController::class, 'getVanDetails'])->name('getVanDetails');
@@ -39,8 +40,6 @@ Route::get('/payment-fpx', [BookingController::class, 'showPayment'])->name('pay
 
 Route::middleware('auth')->group(function () {
     Route::get('/booking/{van}', [BookingController::class, 'show'])->name('booking');
-   
-    Route::post('/submit-booking', [BookingController::class, 'submitBooking'])->name('submitBooking');
 });
 
 Route::middleware('auth')->group(function () {

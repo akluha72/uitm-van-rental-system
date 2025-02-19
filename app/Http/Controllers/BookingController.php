@@ -65,8 +65,6 @@ class BookingController extends Controller
             ], 500);
         }
     }
-
-
     public function submitBooking(Request $request)
     {
         try {

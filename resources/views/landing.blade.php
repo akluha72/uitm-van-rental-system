@@ -249,33 +249,26 @@
                         <div class="form-input-section flex flex-col lg:flex-row p-2 justify-around">
                             <!-- Form Content -->
                             <div class="form-calendar-container flex flex-col gap-4 mb-4  grow">
-                                <div class="unavailable-dates-container">
-                                    <label class="block text-sm font-medium text-red-700">Unavailable Dates</label>
-                                    <div class="unavailable-dates-list flex flex-col gap-2">
-                                        {{-- Data here populated from the jsfile --}}
-                                    </div>
-                                </div>
-
                                 <div class="date-input-and-availability-message">
                                     <div class=" flex flex-row items-center gap-4">
                                         <!-- Start Date -->
                                         <div class="calendar-container flex flex-col">
-                                            <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                                            <label for="startDate"
+                                                class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
                                             <input type="text" id="startDate" name="start_date"
                                                 class="w-full border-gray-300 rounded p-2" required>
                                         </div>
                                         <!-- End Date -->
                                         <div class="calendar-container flex flex-col">
-                                            <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                                            <label for="endDate"
+                                                class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
                                             <input type="text" id="endDate" name="end_date"
                                                 class="w-full border-gray-300 rounded p-2" required>
                                         </div>
                                     </div>
                                 </div>
-                                
 
                                 {{-- <input type="hidden" id="userId" name="user_id" value="{{ Auth::user()->id }}"> --}}
-
 
                                 @auth
                                     <input type="hidden" id="userId" name="user_id" value="{{ Auth::user()->id }}">
@@ -287,7 +280,6 @@
 
 
                                 <input type="hidden" id="userId" name="user_id" value="1">
-
                                 <input type="hidden" id="vanId" name="van_id" value="">
                                 <input type="hidden" id="totalAmount" name="total_amount" value="">
 
@@ -377,6 +369,7 @@
 </script>
 
 <script>
+    //  pdfPreview();
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.getElementById("bookingForm");
         const confirmBookingButton = document.getElementById("confirmBooking");

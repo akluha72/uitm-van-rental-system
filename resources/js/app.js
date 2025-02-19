@@ -12,20 +12,19 @@ window.moment = moment;
 
 import { closeModal } from './getVanDetail';
 import { getVanDetails } from './getVanDetail';
-import { checkDateAvailability } from './checkAvailability';
-import { dateValidator } from './checkAvailability';
+// import { checkDateAvailability } from './checkAvailability';
+// import { dateValidator } from './checkAvailability';
 import { pdfPreview } from './pdfPreview';
 
 window.Alpine = Alpine;
 window.closeModal = closeModal;
 window.getVanDetails = getVanDetails;
-window.checkDateAvailability = checkDateAvailability;
-window.dateValidator = dateValidator;
+// window.checkDateAvailability = checkDateAvailability;
+// window.dateValidator = dateValidator;
 window.pdfPreview = pdfPreview;
 
 Alpine.start();
-
-
+pdfPreview();
 
 
 
