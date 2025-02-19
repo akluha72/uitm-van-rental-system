@@ -1,48 +1,35 @@
 import Lightpick from 'lightpick';
-let pickerInstance = null; // Store picker instance
+document.addEventListener("DOMContentLoaded", function () {
+    const modalContainer = document.querySelector(".date-input-and-availability-message");
 
-export function lightPickerInit() {
-    alert("triggering");
-    if (pickerInstance) {
-        console.log("Lightpick already initialized.");
-        return;
-    }
-    document.addEventListener("DOMContentLoaded", function () {
-        const modalContainer = document.querySelector(".date-input-and-availability-message");
-
-        if (modalContainer) {
-            alert("triggred");
-        } else {
-            alert("can't be found");
+    const picker = new Lightpick({
+        field: document.getElementById('startDate'),
+        secondField: document.getElementById('endDate'),
+        singleDate: false,
+        format: 'YYYY-MM-DD',
+        numberOfMonths: 2,
+        parentEl: modalContainer, // Ensure Lightpick is inside the modal
+        onSelect: function (start, end) {
+            dateValidator(start,end);
         }
-        const picker = new Lightpick({
-            field: document.getElementById('startDate'),
-            secondField: document.getElementById('endDate'),
-            singleDate: false, // Change to true for a single date picker
-            format: 'YYYY-MM-DD', // Set date format
-            numberOfMonths: 2,
-            parentEl: modalContainer, // Ensure Lightpick is inside the modal
-            onSelect: function (start, end) {
-                console.log('Selected Start Date:', start ? start.format('YYYY-MM-DD') : '');
-                console.log('Selected End Date:', end ? end.format('YYYY-MM-DD') : '');
-            }
-        });
     });
-}
+});
 
-
-export function dateValidator() {
+export function dateValidator(startDate, endDate) {
     document.addEventListener("DOMContentLoaded", function () {
-        const costBreakdownElement = document.querySelector(".cost-breakdown"); // The container for cost breakdown
+        const costBreakdownElement = document.querySelector(".cost-breakdown");
         const confirmBookingButton = document.querySelector("#confirmBookingButton");
 
         document.querySelector("#startDate").addEventListener("change", handleDateChange);
         document.querySelector("#endDate").addEventListener("change", handleDateChange);
 
         async function handleDateChange() {
-            const startDate = document.querySelector("#startDate").value;
-            const endDate = document.querySelector("#endDate").value;
-            const vanId = document.querySelector("#vanId").value;
+            // const startDate = document.querySelector("#startDate").value;
+            // const endDate = document.querySelector("#endDate").value;
+            // const vanId = document.querySelector("#vanId").value;
+
+            console.log(startDate);
+            console.log(endDate);
 
             if (startDate && endDate) {
                 // Check availability
