@@ -30,7 +30,6 @@ Route::get('/', [LandingPageController::class, 'show'])->name('landing');
 Route::post('/check-availability', [BookingController::class, 'checkAvailability'])->name('checkAvailability');
 Route::post('/submit-booking', [BookingController::class, 'submitBooking'])->name('submitBooking');
 
-// Route::get('/landingpage', [LandingPageController::class, 'show'])->name('landing');
 Route::post('/get-van-details', [FormController::class, 'getVanDetails'])->name('getVanDetails');
 Route::post('/get-unavailable-dates', [FormController::class, 'getUnavailableDates'])->name('getUnavailableDates');
 Route::get('/get-van-price/{vanId}', [FormController::class, 'getVanPrice'])->name('van.getVanPrice');

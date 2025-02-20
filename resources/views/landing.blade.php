@@ -211,11 +211,19 @@
                         </div>
                         <h2 class="text-lg font-semibold">{{ $van->model }}</h2>
                         <p class="text-sm">Seats: {{ $van->capacity }}</p>
-                        <p class="text-sm">Rental Rate: RM{{ number_format($van->rental_rate, 2) }} per day</p>
-                        <button class="bg-blue-500 text-white px-4 py-2 mt-2 mr-auto rounded"
-                            onclick="getVanDetails({{ $van->id }})">
-                            Book Now
-                        </button>
+                        <p class="text-sm mb-4">Rental Rate: RM{{ number_format($van->rental_rate, 2) }} per day</p>
+                        @auth
+                            <!-- If user is authenticated -->
+                            <button class="bg-blue-500 text-white px-4 py-2 mt-2 mr-auto rounded"
+                                onclick="getVanDetails({{ $van->id }})">
+                                Book Now
+                            </button>
+                        @else
+                            <!-- If user is a guest, redirect to login -->
+                            <a href="{{ route('register') }}" class="bg-red-500 text-white px-4 py-2 mt-4 rounded relative">
+                                Login to Book
+                            </a>
+                        @endauth
                     </div>
                 @endforeach
             </div>
@@ -343,7 +351,6 @@
                         </div>
                         <!-- Form Buttons -->
                         <div class="form-button ml-auto mt-6">
-
 
                             <button type="submit"
                                 class="bg-green-500 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 hover:bg-green-600"
