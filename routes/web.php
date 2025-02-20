@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FormController;
@@ -26,7 +27,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [LandingPageController::class, 'show'])->name('landing');
-
 Route::post('/check-availability', [BookingController::class, 'checkAvailability'])->name('checkAvailability');
 Route::post('/submit-booking', [BookingController::class, 'submitBooking'])->name('submitBooking');
 
@@ -37,6 +37,7 @@ Route::get('/get-van-price/{vanId}', [FormController::class, 'getVanPrice'])->na
 Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/payment-fpx', [BookingController::class, 'showPayment'])->name('payment');
+Route::get('/pay', [PaymentController::class, 'redirectToPayment'])->name('pay');
 
 Route::middleware('auth')->group(function () {
     Route::get('/booking/{van}', [BookingController::class, 'show'])->name('booking');
@@ -64,11 +65,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('payments/export-report', [PaymentsController::class, 'export'])->name('payments.export');
     Route::get('payments/{id}', [PaymentsController::class, 'show'])->name('payments.show');
     Route::post('payments/{id}/update', [PaymentsController::class, 'updateStatus'])->name('payments.updateStatus');
-   
-
-    Route::get('payments/test', function () {
-        return 'Route works!';
-    });
     
 });
 

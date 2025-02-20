@@ -20,7 +20,6 @@ class BookingController extends Controller
     public function checkAvailability(Request $request)
     {
         try {
-  
             $vanId = $request['van_id'];
             $startDate = $request['start_date'];
             $endDate = $request['end_date'];
@@ -65,6 +64,8 @@ class BookingController extends Controller
             ], 500);
         }
     }
+
+
     public function submitBooking(Request $request)
     {
         try {
@@ -141,6 +142,6 @@ class BookingController extends Controller
 
     public function showPayment(Request $request)
     {
-        return view('payment'); // Ensure 'fpx.blade.php' exists in resources/views
+        return view('payment');
     }
 }

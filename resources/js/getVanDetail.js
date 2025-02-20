@@ -86,31 +86,44 @@ function formatDate(date) {
 }
 
 // Initialize Lightpick with disabled dates
+let picker = null; // Global variable to store the Lightpick instance
+
 function initializeLightpick(vanId) {
     const modalContainer = document.querySelector(".date-input-and-availability-message");
 
     if (!modalContainer) return;
 
-    const picker = new Lightpick({
+    // ✅ Destroy existing Lightpick instance before creating a new one
+    if (picker) {
+        picker.destroy(); // Lightpick destroy method
+        picker = null; // Reset the picker variable
+    }
+
+    // ✅ Create a new Lightpick instance
+    picker = new Lightpick({
         field: document.getElementById('startDate'),
         secondField: document.getElementById('endDate'),
         singleDate: false,
         format: 'YYYY-MM-DD',
         numberOfMonths: 2,
         parentEl: modalContainer,
-        disableDates: unavailableDates, // Now contains individual dates
+        disableDates: unavailableDates, // Ensure unavailable dates are updated
         onSelect: async function (start, end) {
             if (start && end) {
-                console.log("vanID" + vanId);
-                // dateValidator(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
-                const startDate = start ? start.format('YYYY-MM-DD') : null;
-                const endDate = end ? end.format('YYYY-MM-DD') : null;
+                console.log("vanID:", vanId);
+
+                const startDate = start.format('YYYY-MM-DD');
+                const endDate = end.format('YYYY-MM-DD');
+
+                console.log("Selected Dates:", startDate, endDate);
+
                 const totalCost = await calculateCost(vanId, startDate, endDate);
                 updateCostBreakdown(totalCost);
             }
         }
     });
 }
+
 
 // Update cost breakdown in the UI
 function updateCostBreakdown(totalCost) {

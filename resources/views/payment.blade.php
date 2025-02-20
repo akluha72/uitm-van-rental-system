@@ -3,7 +3,7 @@
         <div class="bg-white p-4 rounded-lg shadow-lg w-3/4 mx-auto">
             <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Payment</h1>
     
-            <form  class="space-y-4 flex flex-col">
+            <form class="space-y-4 flex flex-col" action="{{ route('pay') }}" method="GET">
                 @csrf
                 <div>
                     <label for="amount" class="block text-gray-700 font-medium mb-2">Payment Amount</label>
@@ -25,7 +25,7 @@
     
                 <button type="submit"
                         class="ml-auto mt-4 bg-blue-500 text-white p-3 rounded-lg font-medium hover:bg-blue-600 transition">
-                    Proceed to Payment
+                    Pay
                 </button>
             </form>
         </div>
