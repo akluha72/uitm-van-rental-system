@@ -85,3 +85,5 @@ Route::get('/test-email', function () {
 });
 
 require __DIR__ . '/auth.php';
+
+//TODO - why booking isn't working? 
