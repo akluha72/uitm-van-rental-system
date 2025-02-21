@@ -15,6 +15,7 @@ class Van extends Model
         'license_plate', 
         'maintenance_status', 
         'availability',
+        'image'
     ];
 
     public function bookings()

@@ -87,3 +87,7 @@ Route::get('/test-email', function () {
 require __DIR__ . '/auth.php';
 
 //TODO - why booking isn't working? 
+//farah@gmail.com farah 1234567
+
+//Van should have image
+//after booking status approved? 

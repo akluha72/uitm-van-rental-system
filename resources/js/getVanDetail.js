@@ -93,13 +93,11 @@ function initializeLightpick(vanId) {
 
     if (!modalContainer) return;
 
-    // ✅ Destroy existing Lightpick instance before creating a new one
     if (picker) {
         picker.destroy(); // Lightpick destroy method
         picker = null; // Reset the picker variable
     }
 
-    // ✅ Create a new Lightpick instance
     picker = new Lightpick({
         field: document.getElementById('startDate'),
         secondField: document.getElementById('endDate'),
@@ -139,7 +137,7 @@ function updateCostBreakdown(totalCost) {
     document.querySelector("#total").textContent = `RM ${(totalCost + deposit).toFixed(2)}`;
 
     const totalAmount = document.getElementById('totalAmount');
-    if (totalAmount) totalAmount.value = (totalCost + deposit).toFixed(2);
+    totalAmount.value = (totalCost + deposit).toFixed(2);
 }
 
 
@@ -197,7 +195,7 @@ async function fetchVanPrice(vanId) {
         const data = await response.json();
         console.log("Fetched van price:", data.price);
 
-        return parseFloat(data.price); // ✅ Ensure it's a number
+        return parseFloat(data.price);
     } catch (error) {
         console.error("Error fetching price:", error);
         return 0; 

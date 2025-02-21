@@ -207,7 +207,10 @@
                 @foreach ($vans as $van)
                     <div class=" bg-slate-200 p-4 m-2">
                         <div class="image-container mx-auto mb-2">
-                            <img src="https://placehold.co/300x400" alt="">
+                            <div class="image-container mx-auto mb-2">
+                                <img src="{{ $van->image ? asset('storage/' . $van->image) : 'https://placehold.co/300x400' }}"
+                                    alt="{{ $van->model }}" class="w-72 h-96 object-cover rounded">
+                            </div>
                         </div>
                         <h2 class="text-lg font-semibold">{{ $van->model }}</h2>
                         <p class="text-sm">Seats: {{ $van->capacity }}</p>
@@ -220,7 +223,8 @@
                             </button>
                         @else
                             <!-- If user is a guest, redirect to login -->
-                            <a href="{{ route('register') }}" class="bg-red-500 text-white px-4 py-2 mt-4 rounded relative">
+                            <a href="{{ route('register') }}"
+                                class="bg-red-500 text-white px-4 py-2 mt-4 rounded relative">
                                 Login to Book
                             </a>
                         @endauth
@@ -276,18 +280,11 @@
                                     </div>
                                 </div>
 
-                                {{-- <input type="hidden" id="userId" name="user_id" value="{{ Auth::user()->id }}"> --}}
-
-                                @auth
-                                    <input type="hidden" id="userId" name="user_id" value="{{ Auth::user()->id }}">
-                                @endauth
                                 @if (Auth::check())
                                     <input type="hidden" id="userId" name="user_id"
                                         value="{{ Auth::user()->id }}">
                                 @endif
 
-
-                                <input type="hidden" id="userId" name="user_id" value="1">
                                 <input type="hidden" id="vanId" name="van_id" value="">
                                 <input type="hidden" id="totalAmount" name="total_amount" value="">
 

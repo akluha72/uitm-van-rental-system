@@ -18,6 +18,7 @@
                     Payments</a>
             </nav>
         </div>
+
         <div class="container mx-auto p-6 relative">
             <h1 class="text-2xl font-bold mb-4">Manage Vans</h1>
 
@@ -38,6 +39,7 @@
                 <table id="vansTable" class="min-w-full bg-white border">
                     <thead>
                         <tr>
+                            <th class="border px-4 py-2">Image</th>
                             <th class="border px-4 py-2">Model</th>
                             <th class="border px-4 py-2">Plate Number</th>
                             <th class="border px-4 py-2">Seaters</th>
@@ -48,12 +50,18 @@
                     <tbody>
                         @foreach ($vans as $van)
                             <tr>
+                                <td class="border px-4 py-2">
+                                    @if ($van->image)
+                                        <img src="{{ asset('storage/' . $van->image) }}" alt="Van Image"
+                                            class="w-20 h-20 object-cover">
+                                    @else
+                                        No Image
+                                    @endif
+                                </td>
                                 <td class="border px-4 py-2">{{ $van->model }}</td>
-                                <td class="border px-4 py-2 text-black">{{ strtoupper($van->license_plate) }} </td>
+                                <td class="border px-4 py-2 text-black">{{ strtoupper($van->license_plate) }}</td>
                                 <td class="border px-4 py-2">{{ $van->capacity }}</td>
                                 <td class="border px-4 py-2">RM {{ $van->rental_rate }}</td>
-
-
                                 <td class="border px-4 py-2">
                                     <button class="bg-yellow-500 text-white px-2 py-1 rounded"
                                         onclick="editVan({{ $van->id }})">Edit</button>
@@ -73,14 +81,14 @@
         </div>
     </div>
 
-
     <!-- Add/Edit Modal -->
     <div id="vanModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden z-50">
         <div class="bg-white w-1/3 p-6 rounded shadow-lg">
             <h2 id="modalTitle" class="text-xl font-bold mb-4">Add Van</h2>
-            <form id="vanForm" method="POST">
+            <form id="vanForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" id="method" name="_method">
+
                 <div class="mb-4">
                     <label for="model" class="block font-bold mb-2">Model</label>
                     <input type="text" id="model" name="model" class="w-full border p-2 rounded">
@@ -96,9 +104,13 @@
                 <div class="mb-4">
                     <label for="rate" class="block font-bold mb-2">Rental Rate /day</label>
                     <input type="number" id="rate" name="rental_rate" class="w-full border p-2 rounded">
-                    <input type="hidden" id="availability" name="availability" value="1"
-                        class="w-full border p-2 rounded">
                 </div>
+                <div class="mb-4">
+                    <label for="image" class="block font-bold mb-2">Upload Image</label>
+                    <input type="file" id="image" name="image" class="w-full border p-2 rounded">
+                    <img id="imagePreview" class="mt-2 w-32 h-32 hidden object-cover">
+                </div>
+
                 <div class="flex justify-end">
                     <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded mr-2"
                         onclick="closeVanModal()">Cancel</button>
@@ -116,6 +128,48 @@
         $(document).ready(function() {
             $('#vansTable').DataTable();
         });
+    </script>
+
+    <script>
+        document.getElementById('image').addEventListener('change', function(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.src = reader.result;
+                imagePreview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+
+        function openVanModal() {
+            document.getElementById('vanForm').reset();
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('vanModal').classList.remove('hidden');
+            document.getElementById('modalTitle').textContent = "Add Van";
+            document.getElementById('method').value = '';
+        }
+
+        function editVan(id) {
+            fetch(`/admin/vans/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('vanModal').classList.remove('hidden');
+                    document.getElementById('modalTitle').textContent = "Edit Van";
+                    document.getElementById('method').value = 'PUT';
+                    document.getElementById('model').value = data.model;
+                    document.getElementById('plate_number').value = data.license_plate;
+                    document.getElementById('capacity').value = data.capacity;
+                    document.getElementById('rate').value = data.rental_rate;
+                    if (data.image) {
+                        document.getElementById('imagePreview').src = `/storage/${data.image}`;
+                        document.getElementById('imagePreview').classList.remove('hidden');
+                    }
+                });
+        }
+
+        function closeVanModal() {
+            document.getElementById('vanModal').classList.add('hidden');
+        }
     </script>
 
 

@@ -91,7 +91,6 @@ class BookingController extends Controller
             $startDate = \Carbon\Carbon::parse($request['start_date']);
             $endDate = \Carbon\Carbon::parse($request['end_date']);
             $durationInMonths = $startDate->diffInMonths($endDate);
-
             $bookingType = $durationInMonths > 1 ? 'long-term' : 'short-term';
 
             // Create the booking record
@@ -101,7 +100,7 @@ class BookingController extends Controller
                 'start_date' => $request['start_date'],
                 'end_date' => $request['end_date'],
                 'total_amount' => $request['total_amount'],
-                'payment_status' => 'pending', // Default payment status
+                'payment_status' => 'pending',
                 'booking_status' => 'pending confirmation',
                 'booking_type' => $bookingType,
             ]);
