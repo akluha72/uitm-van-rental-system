@@ -169,8 +169,7 @@
                         <p class="mt-1 text-xs">Founder of Rubik</p>
                     </div>
                     <div class="mt-4">
-                        <p>The service was amazing. I never had to wait that long for my food.
-                            The staff was friendly and attentive, and the delivery was impressively prompt.</p>
+                        <p>Highly recommend this van rental service! The van was spacious, fuel-efficient, and ideal for our company retreat. The staff was friendly and accommodating throughout the entire process.</p>
                     </div>
                 </div>
                 <div class="h-auto lg:p-6 p-4 rounded-md mx-auto bg-white relative max-md:shadow-md">
@@ -180,8 +179,7 @@
                         <p class="mt-1 text-xs">Founder of Alpha</p>
                     </div>
                     <div class="mt-4">
-                        <p>The service was amazing. I never had to wait that long for my food.
-                            The staff was friendly and attentive, and the delivery was impressively prompt.</p>
+                        <p>Renting a van for our family vacation was the best decision. It had plenty of space for everyone and our luggage. The pick-up and drop-off process was hassle-free and efficient!</p>
                     </div>
                 </div>
                 <div class="h-auto lg:p-6 p-4 rounded-md mx-auto bg-white relative max-md:shadow-md">
@@ -191,8 +189,7 @@
                         <p class="mt-1 text-xs">Founder of Labar</p>
                     </div>
                     <div class="mt-4">
-                        <p>The service was amazing. I never had to wait that long for my food.
-                            The staff was friendly and attentive, and the delivery was impressively prompt.</p>
+                        <p>This van rental service was a lifesaver for our corporate event! The van was spacious, well-maintained, and had all the amenities we needed. The booking process was seamless, and the team was super helpful. I’ll definitely use them again for future events!</p>
                     </div>
                 </div>
             </div>
