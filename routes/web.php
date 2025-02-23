@@ -89,5 +89,6 @@ require __DIR__ . '/auth.php';
 //TODO - why booking isn't working? 
 //farah@gmail.com farah 1234567
 
-//Van should have image
-//after booking status approved? 
+//Van should have image - done
+//after booking status approved?
+//user make a payment 

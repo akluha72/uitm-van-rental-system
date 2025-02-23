@@ -103,7 +103,7 @@
                 <h3 class="font-bold text-gray-700 mb-2">Action</h3>
                 <div>
                     <label class="mr-4">
-                        <input type="radio" name="action" value="approved" class="action-radio"
+                        <input type="radio" name="action" value="active" class="action-radio"
                             onchange="handleActionChange()"> Approve
                     </label>
                     <label>

@@ -7,6 +7,7 @@ use App\Models\Booking;
 
 use App\Mail\BookingReviewNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 
 use Illuminate\Http\Request;
@@ -24,28 +25,43 @@ class BookingsController extends Controller
         $booking = Booking::with('van', 'customer')->findOrFail($id);
         return view('admin.bookings.show', compact('booking'));
     }
-
+    
     public function updateStatus(Request $request, $id)
     {
-        $request->validate([
-            'status' => 'required|in:approved,rejected',
-            'comment' => 'nullable|string|max:500',
-        ]);
-
-        $booking = Booking::findOrFail($id);
-        $booking->booking_status = $request->status;
-
-        // Save the rejection comment if provided
-        if ($request->status === 'rejected') {
-            $booking->review_comment = $request->comment;
+        try {
+            $booking = Booking::findOrFail($id);
+            $booking->booking_status = $request->status;
+    
+            // Save the rejection comment if provided
+            if ($request->status === 'rejected') {
+                $booking->review_comment = $request->comment;
+            }
+    
+            $booking->save();
+    
+            // Send email notification
+            Mail::to($booking->user->email)->send(new BookingReviewNotification($booking, $request->status, $request->comment));
+    
+            Log::info('Booking status updated successfully.', [
+                'booking_id' => $booking->id,
+                'status' => $request->status,
+                'comment' => $request->comment ?? null,
+                'user_email' => $booking->user->email
+            ]);
+    
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error('Error updating booking status.', [
+                'error' => $e->getMessage(),
+                'stack' => $e->getTraceAsString(),
+                'booking_id' => $id,
+                'request_data' => $request->all()
+            ]);
+    
+            return response()->json(['success' => false, 'error' => 'Something went wrong. Please try again later.'], 500);
         }
-
-        $booking->save();
-
-        Mail::to($booking->user->email)->send(new BookingReviewNotification($booking, $request->status, $request->comment));
-
-        return response()->json(['success' => true]);
     }
+    
 
     public function getData()
     {

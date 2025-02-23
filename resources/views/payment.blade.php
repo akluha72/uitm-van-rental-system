@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex justify-center items-center min-h-screen">
         <div class="bg-white p-4 rounded-lg shadow-lg w-3/4 mx-auto">
-            <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Payment</h1>
+            <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Payment fpx</h1>
     
             <form class="space-y-4 flex flex-col" action="{{ route('pay') }}" method="GET">
                 @csrf

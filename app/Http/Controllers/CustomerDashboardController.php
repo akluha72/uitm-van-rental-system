@@ -14,7 +14,7 @@ class CustomerDashboardController extends Controller
 
         // Active bookings count
         $activeBookingsCount = Booking::where('user_id', $userId)
-            ->where('booking_status', 'confirmed')
+            ->where('booking_status', 'active')
             ->count();
 
         // Closest payment due date
