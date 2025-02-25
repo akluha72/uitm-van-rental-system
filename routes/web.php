@@ -64,7 +64,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('payments/export-report', [PaymentsController::class, 'export'])->name('payments.export');
     Route::get('payments/{id}', [PaymentsController::class, 'show'])->name('payments.show');
     Route::post('payments/{id}/update', [PaymentsController::class, 'updateStatus'])->name('payments.updateStatus');
-    
+
 });
 
 Route::middleware(['guest'])->group(function () {
@@ -78,7 +78,7 @@ Route::middleware(['guest'])->group(function () {
 Route::get('/test-email', function () {
     Mail::raw('This is a test email from Van Rental System.', function ($message) {
         $message->to('your_email@example.com') // Replace with your email
-                ->subject('Test Email');
+            ->subject('Test Email');
     });
 
     return 'Test email sent!';
