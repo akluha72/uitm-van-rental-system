@@ -242,7 +242,7 @@
                         <!-- Van Details -->
                         <div class="mb-4 flex flex-row relative">
                             <div class="booking-popup-image absolute inset-0 z-0">
-                                <img src="https://placehold.co/700x200" alt="Van Image"
+                                <img src="{{ $van->image ? asset('storage/' . $van->image) : 'https://placehold.co/300x400' }}" alt="{{ $van->model }}"
                                     class="h-64 w-full object-cover">
                             </div>
                             <div class="relative bg-gradient-to-r from-black to-transparent h-64 w-[80%] z-10"></div>
